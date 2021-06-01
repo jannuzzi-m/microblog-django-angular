@@ -30,7 +30,6 @@ class PostList(generics.ListCreateAPIView):
        followed_users = [user.following for user in Follow.objects.all() if user.follower == self.request.user]
        followed_users.append(self.request.user)
        queryset = [post for post in Post.objects.all() if post.owner in followed_users]
-    #    queryset = [post for post in Post.object.all()]
        return queryset
 
 
