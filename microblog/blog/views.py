@@ -34,12 +34,8 @@ class LikesList(generics.ListCreateAPIView):
         serializer.save(who_liked = user)
     
     def get_queryset(self):
-        queryset = []
-        # parece muito errado. Tentar filtrar no banco
-        for i in Like.objects.all().order_by('created'):
-            if(i.post.owner == self.request.user):
-                queryset.append(i)
-        return queryset
+        #tentar filtrar no banco
+        return list(filter(lambda like: like.post.owner == self.request.user, Like.objects.all().order_by('created')))
         
 
         
