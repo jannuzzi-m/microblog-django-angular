@@ -1,4 +1,6 @@
+from django.db.models import query
 from django.db.models.fields.related import ForeignKey
+from rest_framework.response import Response
 from blog.models import Like, Post
 from blog.serializers import LikeSerializer, PostSerializer
 from django.shortcuts import render
@@ -30,5 +32,15 @@ class LikesList(generics.ListCreateAPIView):
     def perform_create(self, serializer):
         user = self.request.user
         serializer.save(who_liked = user)
+    
+    def get_queryset(self):
+        queryset = []
+        # parece muito errado. Tentar filtrar no banco
+        for i in Like.objects.all().order_by('created'):
+            if(i.post.owner == self.request.user):
+                queryset.append(i)
+        return queryset
+        
+
         
 

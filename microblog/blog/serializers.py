@@ -13,6 +13,7 @@ class PostSerializer(serializers.ModelSerializer):
 class LikeSerializer(serializers.ModelSerializer):
     who_liked = serializers.ReadOnlyField(source = 'who_liked.username')
     post = serializers.ReadOnlyField(source = 'post.body')
+    
     class Meta:
         model = Like
         fields = ['id', 'post', 'who_liked']
