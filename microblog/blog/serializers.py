@@ -6,8 +6,15 @@ from django.contrib.auth.models import User
 class UserSerialize(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ['id', 'username']
-
+        fields = ['id', 'username', 'password']
+        extra_kwargs = {'password': {'write_only': True}}
+    def create(self, validated_data):
+        user = User(
+            username=validated_data['username']
+        )
+        user.set_password(validated_data['password'])
+        user.save()
+        return user
 
 class PostSerializer(serializers.ModelSerializer):
     owner = serializers.ReadOnlyField(source = 'owner.username')
@@ -25,6 +32,7 @@ class LikeSerializer(serializers.ModelSerializer):
     class Meta:
         model = Like
         fields = ['id', 'post', 'who_liked']
+
 
 class FollowSerializer(serializers.ModelSerializer):
     follower = serializers.ReadOnlyField(source = 'follower.username')
