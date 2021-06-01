@@ -1,10 +1,6 @@
 from django.contrib.auth.models import User
-from django.db.models import query
-from django.db.models.fields.related import ForeignKey
-from rest_framework.response import Response
 from blog.models import Follow, Like, Post
 from blog.serializers import FollowSerializer, LikeSerializer, PostSerializer, UserSerialize
-from django.shortcuts import render
 from rest_framework import generics, request
 from rest_framework.permissions import IsAuthenticated
 from blog.permissions import IsOwner
@@ -28,6 +24,14 @@ class PostList(generics.ListCreateAPIView):
     def perform_create(self, serializer):
         user = self.request.user
         serializer.save(owner=user)
+
+    
+    def get_queryset(self):
+       followed_users = [user.following for user in Follow.objects.all() if user.follower == self.request.user]
+       followed_users.append(self.request.user)
+       queryset = [post for post in Post.objects.all() if post.owner in followed_users]
+    #    queryset = [post for post in Post.object.all()]
+       return queryset
 
 
 class PostDetail(generics.RetrieveUpdateDestroyAPIView):

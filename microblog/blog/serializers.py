@@ -1,6 +1,5 @@
-from django.db.models import fields
 from blog.models import Follow, Like, Post
-from rest_framework import generics, serializers
+from rest_framework import serializers
 from django.contrib.auth.models import User
 
 
@@ -29,7 +28,7 @@ class LikeSerializer(serializers.ModelSerializer):
 
 class FollowSerializer(serializers.ModelSerializer):
     follower = serializers.ReadOnlyField(source = 'follower.username')
-    following = serializers.ReadOnlyField(source = 'following.username')
+    # following = serializers.ReadOnlyField(source = 'following.username')
 
     class Meta:
         model = Follow
