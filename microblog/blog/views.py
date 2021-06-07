@@ -1,6 +1,10 @@
+import re
 from django.contrib.auth.models import User
-from blog.models import Follow, Like, Post
-from blog.serializers import FollowSerializer, LikeSerializer, PostSerializer, UserSerialize
+from django.db.models import query
+from rest_framework.response import Response
+from blog import serializers
+from blog.models import Follow, Post
+from blog.serializers import FollowSerializer, PostSerializer, UserSerialize
 from rest_framework import generics, request
 from rest_framework.permissions import IsAuthenticated
 from blog.permissions import IsOwner
@@ -10,13 +14,13 @@ class UserList(generics.ListCreateAPIView):
     queryset = User.objects.all()
     serializer_class = UserSerialize
 
+
 class UserDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = User.objects.all()
     serializer_class = UserSerialize
 
 
-class PostList(generics.ListCreateAPIView):
-    queryset = Post.objects.all()
+class TimeLine(generics.ListCreateAPIView):
     serializer_class = PostSerializer
     permission_classes = [IsAuthenticated]
 
@@ -39,28 +43,29 @@ class PostDetail(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = PostSerializer
 
 
-class LikesList(generics.ListCreateAPIView):
-    queryset = Like.objects.all()
-    serializer_class = LikeSerializer
+class LikesCreate(generics.CreateAPIView):
+    permission_classes = [IsAuthenticated]
+    serializer_class = Post
 
 
-    def perform_create(self, serializer):
+    def create(self, request, *args, **kwargs):
+        data = request.data
         user = self.request.user
-        serializer.save(who_liked = user)
+        post = Post.objects.get(id=data['post'])
+        post.likes.add(user)
+        return Response({"Status": "Created"})
+ 
 
-
-    def get_queryset(self):
-        #tentar filtrar no banco
-        return list(filter(lambda like: like.post.owner == self.request.user, Like.objects.all().order_by('created')))
-        
 
 class FollowList(generics.ListCreateAPIView):
     queryset = Follow.objects.all()
     serializer_class = FollowSerializer
 
 
-    def perform_create(self, serializer):
+    def create(self, request, *args, **kwargs):
         user = self.request.user
-        serializer.save(follower = user)
-    
+        following = User.objects.get(id=request.data['user'])
+        follow = Follow.objects.create(follower = user, following=following)
+        follow.save()
+        return Response({"status": "Following"})
 
