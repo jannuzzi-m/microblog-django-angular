@@ -1,4 +1,4 @@
 {
-    "python.pythonPath": "/home/agriness/dev/envs/bin/python3",
+    "python.pythonPath": "/home/jannuzzi/dev/envs/django/bin/python3",
     "python.analysis.extraPaths": ["microblog"],
 }
