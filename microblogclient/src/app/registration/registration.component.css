@@ -114,18 +114,24 @@ a:hover{
   justify-content: center;
   align-items: center;
   background-color: rgba(230, 16, 16, 0.9);
-  /* transform: translateY(-100px);
-  animation: error infinite 5s; */
+  transform: translateY(-100px);
 }
-/* 
+
+.error-animated{
+  animation: error 2s;
+  animation-direction: alternate;
+  animation-iteration-count: infinite;
+}
+
 @keyframes error{
-  0% {
-    transform: translateY(0px);
-  }
   30%{
+    transform: translateY(-100px);
+  }
+  50%{
     transform: translateY(0px);
   }
   100%{
-    opacity: 0;
+    transform: translateY(0px);
   }
-} */
+  
+}

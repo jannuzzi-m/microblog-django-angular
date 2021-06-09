@@ -34,14 +34,14 @@ export class RegistrationComponent implements OnInit {
       this.currentError = this.errors.passwordDoentMatch;
       setTimeout(() => {
         this.currentError = undefined;
-      }, 5000);
+      }, 4000);
       return
     }
     if(data.password.length < 8){
       this.currentError = this.errors.passwordTooShort;
       setTimeout(() => {
         this.currentError = undefined;
-      }, 5000);
+      }, 4000);
       return
     }
     console.log(this.registrationForm.value);
