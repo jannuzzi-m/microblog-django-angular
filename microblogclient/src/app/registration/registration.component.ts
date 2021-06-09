@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
+import { Registration } from '../types/Registration';
+import { UserService } from '../user.service';
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-registration',
   templateUrl: './registration.component.html',
@@ -7,7 +10,7 @@ import { FormControl, FormGroup } from '@angular/forms';
 })
 export class RegistrationComponent implements OnInit {
 
-  constructor() { }
+  constructor(private userService: UserService, private route:Router) { }
 
   ngOnInit(): void {
   }
@@ -29,7 +32,7 @@ export class RegistrationComponent implements OnInit {
   })
 
   onSubmit(){
-    let data = this.registrationForm.value;
+    let data: Registration = this.registrationForm.value;
     if(data.password !== data.confirm_password){
       this.currentError = this.errors.passwordDoentMatch;
       setTimeout(() => {
@@ -44,6 +47,20 @@ export class RegistrationComponent implements OnInit {
       }, 4000);
       return
     }
-    console.log(this.registrationForm.value);
+    this.userService.createUser(data).subscribe(res => {
+      if(res.id){
+
+        this.userService.setUserBasicInfo(res);
+        this.userService.getTokenFromServer(data.username, data.password).subscribe(res => {
+          if(res.token){
+            this.userService.setToken(res.token)
+            this.route.navigate(['dashboard'])
+            return
+          }
+        })
+        return
+        
+      }
+    })
   }
 }

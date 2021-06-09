@@ -89,3 +89,36 @@ a:hover{
     width: 100%;
   }
 }
+
+#error-modal{
+  position: fixed;
+  width: 200px;
+  height: 100px;
+  color: #fff;
+  right: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(230, 16, 16, 0.9);
+  transform: translateY(-100px);
+  z-index: 10;
+}
+
+.error-animated{
+  animation: error 2s;
+  animation-direction: alternate;
+  animation-iteration-count: infinite;
+}
+
+@keyframes error{
+  30%{
+    transform: translateY(-100px);
+  }
+  50%{
+    transform: translateY(0px);
+  }
+  100%{
+    transform: translateY(0px);
+  }
+  
+}

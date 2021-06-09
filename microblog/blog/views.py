@@ -12,11 +12,19 @@ from blog.permissions import IsOwner
 class UserList(generics.ListCreateAPIView):
     queryset = User.objects.all()
     serializer_class = UserSerialize
-
+        
 
 class UserDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = User.objects.all()
     serializer_class = UserSerialize
+
+class BasicInfo(generics.RetrieveAPIView):
+    serializer_class = UserSerialize
+    
+    def get(self, request, *args, **kwargs):
+        if(self.request.user):
+            return Response(serializers.UserSerialize(self.request.user).data)
+   
 
 
 class TimeLine(generics.ListCreateAPIView):

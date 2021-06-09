@@ -1,3 +1,7 @@
+<div *ngIf="currentError" class="error-animated" id="error-modal">
+    {{currentError}}
+</div>
+
 <div id="container">
     <form [formGroup]="userLogin" id="form" (ngSubmit)="onSubmit()">
         <div id="logo">MicroBlog</div>
@@ -13,7 +17,7 @@
                 <input formControlName="password" type="password"/>
             </div>
         </div>
-        <button>Login</button>
+        <button *ngIf="!loading">Login</button>
         <a routerLink="/registration">Não tem uma conta? Registre-se...</a>
     </form>
 </div>
