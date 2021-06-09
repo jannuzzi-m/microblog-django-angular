@@ -1,3 +1,33 @@
-<div *ngIf="user">
-    <h1>Olá meu bom amigo {{user.username}}</h1>
+<div  id="container">
+    <div id="user-info">
+        <div *ngIf="user" id="info-cotainer">
+            <div id="header-profile">
+                <div id="prfile-icon"></div>
+                <p>olá {{user.username}}</p>
+            </div>
+        </div>
+    </div>
+    <div id="timeline">
+        <form id="post-area" [formGroup]="postData" (ngSubmit)="postToServer()">
+            <textarea formControlName="text" name="" id="" cols="30" rows="10"></textarea>
+            <button>Microblogit</button>
+        </form>
+        <div id="posts">
+            <div *ngFor="let post of posts" class="post-container">
+                <div id="post-header">
+                    <div id="post-icon"></div>
+                    <div id="name">{{post.owner}}</div>
+                </div>
+                <div id="post-body">
+
+                    {{post.body}}
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="news">
+
+    </div>
+
+
 </div>

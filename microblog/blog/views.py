@@ -32,10 +32,19 @@ class TimeLine(generics.ListCreateAPIView):
     permission_classes = [IsAuthenticated]
 
 
-    def perform_create(self, serializer):
-        user = self.request.user
-        serializer.save(owner=user)
+    # def perform_create(self, serializer):
+    #     user = self.request.user
+    #     serializer.save(owner=user)
 
+    def create(self, request, *args, **kwargs):
+        data = request.data
+        post = Post.objects.create(
+            body=data['body'],
+            owner=self.request.user
+        )
+        post.save()
+        return Response(serializers.PostSerializer(post).data)
+        
     
     def get_queryset(self):
        followed_users = [user.following for user in Follow.objects.all() if user.follower == self.request.user]
