@@ -1,46 +1,50 @@
+<div *ngIf="currentError" id="error-modal">
+    {{currentError}}
+</div>
+
 <div id="container">
 
-    <div id="form">
+    <form id="form" [formGroup]="registrationForm" (ngSubmit)="onSubmit()">
         <div id="logo">MicroBlog</div>
         <div class="input-field">
             <div class="span-input-holder">
                 <span>Nome: </span>
-                <input type="text"/>
+                <input formControlName="first_name" type="text"/>
             </div>
         </div>
         <div class="input-field">
             <div class="span-input-holder">
                 <span>Sobrenome: </span>
-                <input type="text"/>
+                <input formControlName="last_name" type="text"/>
             </div>
         </div>
         <div class="input-field">
             <div class="span-input-holder">
                 <span>Username: </span>
-                <input type="text"/>
+                <input formControlName="username" type="text"/>
             </div>
         </div>
         <div class="input-field">
             <div class="span-input-holder">
                 <span>Email: </span>
-                <input type="text"/>
+                <input formControlName="email" type="text"/>
             </div>
         </div>
         <div class="input-field">
             <div class="span-input-holder">
                 <span>Senha: </span>
-                <input type="password"/>
+                <input formControlName="password" type="password"/>
             </div>
         </div>
         <div class="input-field">
             <div class="span-input-holder">
                 <span>Confirmar senha: </span>
-                <input type="password"/>
+                <input formControlName="confirm_password" type="password"/>
             </div>
         </div>
         
         <button>Registrar</button>
         <a routerLink="/login">ou faça Login...</a>
-    </div>
+    </form>
 
 </div>

@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { FormGroup, FormControl } from '@angular/forms';
 import { UserService } from '../user.service';
 
 @Component({
@@ -12,6 +13,15 @@ export class LoginComponent implements OnInit {
 
   ngOnInit(): void {
     
+  }
+
+  userLogin = new FormGroup({
+    username: new FormControl(''),
+    password: new FormControl('')
+  });
+
+  onSubmit(){
+    console.warn(this.userLogin.value);
   }
 
 }

@@ -1,20 +1,19 @@
 <div id="container">
-    <div id="form">
+    <form [formGroup]="userLogin" id="form" (ngSubmit)="onSubmit()">
         <div id="logo">MicroBlog</div>
         <div class="input-field">
             <div class="span-input-holder">
                 <span>Username: </span>
-                <input type="text"/>
+                <input formControlName="username" type="text"/>
             </div>
         </div>
         <div class="input-field">
             <div class="span-input-holder">
                 <span>Password</span>
-                <input type="password"/>
+                <input formControlName="password" type="password"/>
             </div>
         </div>
         <button>Login</button>
         <a routerLink="/registration">Não tem uma conta? Registre-se...</a>
-
-    </div>
+    </form>
 </div>
