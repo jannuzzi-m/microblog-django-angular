@@ -6,6 +6,7 @@
                 <p>olá {{user.username}}</p>
             </div>
         </div>
+        <div id="signout-container"><button (click)="logout()">Sair</button></div>
     </div>
     <div id="timeline">
         <form id="post-area" [formGroup]="postData" (ngSubmit)="postToServer()">
@@ -13,7 +14,7 @@
             <button>Microblogit</button>
         </form>
         <div id="posts">
-            <div *ngFor="let post of posts" class="post-container">
+            <div *ngFor="let post of posts" class="post-container" (click)="seeDetail(post.id)">
                 <div id="post-header">
                     <div id="post-icon"></div>
                     <div id="name">{{post.owner}}</div>

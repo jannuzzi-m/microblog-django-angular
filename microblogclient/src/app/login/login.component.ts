@@ -13,7 +13,12 @@ export class LoginComponent implements OnInit {
   constructor(private userService: UserService, private route: Router) { }
 
   ngOnInit(): void {
-
+    const currenToken = localStorage.getItem('token');
+    if(currenToken){
+      this.userService.setToken(currenToken)
+      this.route.navigate(['dashboard'])
+    }
+    
   }
   errors = {
     credentialsNotValid: "Usuario ou senha incorreto",
@@ -42,6 +47,7 @@ export class LoginComponent implements OnInit {
     this.userService.getTokenFromServer(data.username, data.password).subscribe(res => {
       if (res.token) {
         this.userService.setToken(res.token);
+        localStorage.setItem('token', res.token);
         this.route.navigate(['dashboard'])
         return
       }

@@ -49,7 +49,7 @@ class TimeLine(generics.ListCreateAPIView):
     def get_queryset(self):
        followed_users = [user.following for user in Follow.objects.all() if user.follower == self.request.user]
        followed_users.append(self.request.user)
-       queryset = [post for post in Post.objects.all() if post.owner in followed_users]
+       queryset = [post for post in Post.objects.all().order_by('-created') if post.owner in followed_users]
        return queryset
 
 

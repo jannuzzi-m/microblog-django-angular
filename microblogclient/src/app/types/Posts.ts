@@ -1,5 +1,6 @@
 export type Posts = {
     id: number,
+    body: string,
     owner: string,
-    body: string
+    created: Date
 }

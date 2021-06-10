@@ -20,18 +20,19 @@ class UserSerialize(serializers.ModelSerializer):
 
 class PostSerializer(serializers.ModelSerializer):
     owner = serializers.ReadOnlyField(source = 'owner.username')
-    # likes = UserSerialize(many = True)
-    
+    # like_count = serializers._ER
+    test = 1
     class Meta:
         model = Post
         fields = ['id', 'body', 'created', 'owner']
         depth = 1
+        
 
 class LikeSerializer(serializers.ModelSerializer):
     who_liked = UserSerialize()
     class Meta:
         model = Like
-        fields = ['id', 'created', 'post', 'who_liked']
+        fields = ['id', 'created', 'post', 'who_liked', 'test']
         depth = 1
 
 class FollowSerializer(serializers.ModelSerializer):

@@ -4,12 +4,13 @@ import { HttpClient, HttpHeaders, HttpResponseBase } from '@angular/common/http'
 import { catchError } from 'rxjs/operators';
 import { Registration } from './types/Registration';
 import { UserBasicInfo } from './types/UserBasicINfo';
+import { Router } from '@angular/router';
 @Injectable({
   providedIn: 'root'
 })
 export class UserService {
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private route:Router) { }
 
   
   private token:string|undefined;
@@ -18,7 +19,7 @@ export class UserService {
   setUserBasicInfo(info:UserBasicInfo){
     this.userBasicInfo = info
   }
-  getHEaders(){
+  getHeaders(){
     return{
       headers: new HttpHeaders({
         Authorization: `Token ${this.getToken()}`
@@ -31,7 +32,7 @@ export class UserService {
     return this.token;
   }
 
-  setToken(token:string){
+  setToken(token:string|undefined){
     this.token = token;
   }
 
@@ -76,7 +77,13 @@ export class UserService {
   }
 
   getBasicInfoFromServer():Observable<any>{
-    return this.http.get('http://localhost:8000/basic-info/', this.getHEaders())
+    return this.http.get('http://localhost:8000/basic-info/', this.getHeaders())
+  }
+
+  logout(){
+    localStorage.removeItem('token');
+    this.setToken(undefined)
+    this.route.navigate(['login'])
   }
 
 }
