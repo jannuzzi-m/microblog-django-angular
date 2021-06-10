@@ -1,4 +1,4 @@
-from blog.models import Follow, Post
+from blog.models import Follow, Like, Post
 from rest_framework import serializers
 from django.contrib.auth.models import User
 
@@ -20,13 +20,19 @@ class UserSerialize(serializers.ModelSerializer):
 
 class PostSerializer(serializers.ModelSerializer):
     owner = serializers.ReadOnlyField(source = 'owner.username')
-    likes = UserSerialize(many = True)
+    # likes = UserSerialize(many = True)
     
     class Meta:
         model = Post
-        fields = ['id', 'body', 'created', 'owner', 'likes']
+        fields = ['id', 'body', 'created', 'owner']
         depth = 1
 
+class LikeSerializer(serializers.ModelSerializer):
+    who_liked = UserSerialize()
+    class Meta:
+        model = Like
+        fields = ['id', 'created', 'post', 'who_liked']
+        depth = 1
 
 class FollowSerializer(serializers.ModelSerializer):
     follower = serializers.ReadOnlyField(source = 'follower.username')

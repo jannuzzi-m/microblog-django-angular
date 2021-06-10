@@ -7,12 +7,20 @@ class Post(models.Model):
     created = models.DateTimeField(auto_now_add=True)
     body = models.CharField(max_length=240)
     owner = models.ForeignKey('auth.User', related_name='post', on_delete=models.CASCADE)
-    likes  = models.ManyToManyField(User, default=[], blank=True, related_name='who_liked')
+    # likes  = models.ManyToManyField(User, default=[], blank=True, related_name='who_liked')
 
 
     def __str__(self) -> str:
         return self.body
-    
+
+class Like(models.Model):
+    created = models.DateTimeField(auto_now_add=True)
+    post = models.ForeignKey(Post, related_name='post', on_delete=models.CASCADE)
+    who_liked = models.ForeignKey(User, related_name='who_liked', on_delete=models.CASCADE)
+
+    def __str__(self) -> str:
+        return f'{self.who_liked} likes {self.post}'
+
 
 class Follow(models.Model):
     created = models.DateTimeField(auto_now_add=True)

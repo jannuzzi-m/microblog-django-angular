@@ -2,8 +2,8 @@ from django.contrib.auth.models import User
 from django.db.models import query
 from rest_framework.response import Response
 from blog import serializers
-from blog.models import Follow, Post
-from blog.serializers import FollowSerializer, PostSerializer, UserSerialize
+from blog.models import Follow, Like, Post
+from blog.serializers import FollowSerializer, LikeSerializer, PostSerializer, UserSerialize
 from rest_framework import generics, request
 from rest_framework.permissions import IsAuthenticated
 from blog.permissions import IsOwner
@@ -61,15 +61,16 @@ class PostDetail(generics.RetrieveUpdateDestroyAPIView):
 
 class LikesCreate(generics.CreateAPIView):
     permission_classes = [IsAuthenticated]
-    serializer_class = Post
+    serializer_class = LikeSerializer
 
 
     def create(self, request, *args, **kwargs):
         data = request.data
         user = self.request.user
         post = Post.objects.get(id=data['post'])
-        post.likes.add(user)
-        return Response({"Status": "Created"})
+        like = Like.objects.create(post = post, who_liked = user)
+        like.save()
+        return Response(LikeSerializer(like).data)
  
 
 
