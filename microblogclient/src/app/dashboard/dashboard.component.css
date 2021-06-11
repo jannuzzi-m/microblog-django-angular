@@ -11,16 +11,10 @@
   flex-direction: column;
   justify-content: space-between;
   background-color: rgba(0, 0, 0, 0.3);
-
   padding: 5px;
 }
-#header-profile {
-  display: flex;
-  color: white;
-  font-size: 2em;
-  justify-content: left;
-  align-items: center;
-}
+
+
 #timeline {
   width: 60%;
   border-left: 1px #000 solid;
@@ -28,83 +22,14 @@
   padding: 10px;
   overflow-y: scroll;
 }
+
+
+
 #news {
   width: 20%;
   /* background-color: brown; */
   background-color: rgba(0, 0, 0, 0.3);
   /* background-color: transparent; */
-}
-
-#prfile-icon {
-  width: 50px;
-  height: 50px;
-  background-color: white;
-  margin: 5px;
-  border-radius: 50%;
-}
-
-#post-area {
-  padding: 10px;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-}
-#post-area button {
-    color: white;
-    font-weight: bolder;
-    width: 100px;
-    height: 25px;
-    border-radius: 4px;
-    cursor: pointer;
-    background-color: rgba(0, 0, 0, 0.3);
-    margin-top: 5px;
-}
-
-#post-area button:hover {
-    background-color: rgba(0, 0, 0, 0.5);
-    
-}
-#post-area textarea {
-  width: 100%;
-  resize: none;
-  border-radius: 10px;
-}
-
-#posts {
-  display: block;
-}
-
-.post-container {
-  background-color: rgba(0, 0, 0, 0.8);
-  border-radius: 10px;
-  color: white;
-  min-height: 100px;
-  padding: 5px;
-  margin: 10px 0px;
-  overflow-wrap: break-word;
-  cursor: pointer;
-}
-#post-header {
-  width: 100%;
-  height: 50px;
-  display: flex;
-  justify-content: left;
-  align-items: center;
-}
-#post-icon {
-  margin-right: 10px;
-  width: 50px;
-  height: 50px;
-  border-radius: 50%;
-  background-color: aliceblue;
-}
-
-#name {
-  font-weight: bolder;
-}
-
-#post-body {
-  padding: 2px;
 }
 
 /* width */
@@ -127,25 +52,3 @@
   background: rgba(0, 0, 0, 9);
 }
 
-#signout-container {
-  /* background-color: yellow; */
-  justify-self: center;
-  width: 100%;
-  height: 40px;
-  display: flex;
-  align-items: center;
-  justify-content: right;
-  padding: 5px;
-}
-#signout-container button {
-  color: white;
-  font-weight: bolder;
-  width: 100px;
-  height: 25px;
-  border-radius: 4px;
-  cursor: pointer;
-  background-color: rgba(0, 0, 0, 0.3);
-}
-#signout-container button:hover {
-  background-color: rgba(0, 0, 0, 0.8);
-}

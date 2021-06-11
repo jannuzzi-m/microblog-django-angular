@@ -1,0 +1,47 @@
+#header-profile {
+  display: flex;
+  color: white;
+  font-size: 2em;
+  justify-content: left;
+  align-items: center;
+}
+
+#profile-icon {
+  width: 50px;
+  height: 50px;
+  background-color: white;
+  margin: 5px;
+  border-radius: 50%;
+}
+
+#signout-container {
+  /* background-color: yellow; */
+  justify-self: center;
+  width: 100%;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: right;
+  padding: 5px;
+}
+#signout-container button {
+  color: white;
+  font-weight: bolder;
+  width: 100px;
+  height: 25px;
+  border-radius: 4px;
+  cursor: pointer;
+  background-color: rgba(0, 0, 0, 0.3);
+}
+#signout-container button:hover {
+  background-color: rgba(0, 0, 0, 0.8);
+}
+
+#container {
+    background-color: red;
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    background-image: url("../../imgs/city-5637906_1920.jpg");
+  }
+ 

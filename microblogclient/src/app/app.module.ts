@@ -7,7 +7,10 @@ import { LoginComponent } from './login/login.component';
 import {HttpClientModule} from '@angular/common/http';
 import { RegistrationComponent } from './registration/registration.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
-import { PostDetailComponent } from './post-detail/post-detail.component'
+import { PostDetailComponent } from './post-detail/post-detail.component';
+import { SearchComponent } from './search/search.component';
+import { TimelineComponent } from './timeline/timeline.component';
+import { UserInfoComponent } from './user-info/user-info.component'
 
 @NgModule({
   declarations: [
@@ -15,7 +18,10 @@ import { PostDetailComponent } from './post-detail/post-detail.component'
     LoginComponent,
     RegistrationComponent,
     DashboardComponent,
-    PostDetailComponent
+    PostDetailComponent,
+    SearchComponent,
+    TimelineComponent,
+    UserInfoComponent
   ],
   imports: [
     BrowserModule,

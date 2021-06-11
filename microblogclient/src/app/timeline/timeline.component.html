@@ -1,0 +1,19 @@
+<form id="post-area" [formGroup]="postData" (ngSubmit)="postToServer()">
+  <textarea formControlName="text" name="" id="" cols="30" rows="10"></textarea>
+  <button>Microblogit</button>
+</form>
+<div id="posts">
+  <div
+    *ngFor="let post of posts"
+    class="post-container"
+    (click)="seeDetail(post.id)"
+  >
+    <div id="post-header">
+      <div id="post-icon"></div>
+      <div id="name">{{ post.owner }}</div>
+    </div>
+    <div id="post-body">
+      {{ post.body }}
+    </div>
+  </div>
+</div>

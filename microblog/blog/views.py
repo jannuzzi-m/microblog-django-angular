@@ -7,6 +7,8 @@ from blog.serializers import FollowSerializer, LikeSerializer, PostSerializer, U
 from rest_framework import generics, request
 from rest_framework.permissions import IsAuthenticated
 from blog.permissions import IsOwner
+from django_filters.rest_framework import DjangoFilterBackend
+from rest_framework import filters
 
 
 class UserList(generics.ListCreateAPIView):
@@ -86,3 +88,8 @@ class FollowList(generics.ListCreateAPIView):
         follow.save()
         return Response({"status": "Following"})
 
+class UserSearch(generics.ListAPIView):
+    queryset = User.objects.all()
+    serializer_class = UserSerialize
+    filter_backends = [filters.SearchFilter]
+    search_fields = ['=username']
