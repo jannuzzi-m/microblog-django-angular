@@ -1,7 +1,18 @@
 <div id="container">
-    <div id="post-container">
+    <div *ngIf="post" id="post-container">
         <div id="header">
-            
+            <div id="user-icon">
+
+            </div>
+            <div id="username-container">
+                {{post.owner}}
+            </div>
+        </div>
+        <div id="body">
+            {{post.body}}
+        </div>
+        <div *ngIf="isMyPost" id="footer">
+            <button (click)="deletePost()" id="button">Delete</button>
         </div>
 
     </div>

@@ -11,11 +11,12 @@ import { UserService } from '../user.service';
 })
 export class PostDetailComponent implements OnInit {
 
-  constructor(private route:ActivatedRoute, private postService: PostsService, private userService: UserService) { }
+  constructor(private router:ActivatedRoute, private postService: PostsService, private userService: UserService, private route:Router) { }
   id: string|null|undefined;
   post: Posts| undefined;
+  isMyPost = false;
   ngOnInit(): void {
-   const param = this.route.snapshot.paramMap.get('id');
+   const param = this.router.snapshot.paramMap.get('id');
    this.id = param;
    if(this.id){
     if (!this.userService.getToken()) {
@@ -26,10 +27,30 @@ export class PostDetailComponent implements OnInit {
     }
      this.postService.getPostFromServer(this.id).subscribe(res => {
        this.post = res
-     })
-   }
+      //  this.route.navigate(['dashboard'])
+      this.isMyPost = this.setIsMyPost()
+    })
+  }
+  
+  
+}
 
-    
+  setIsMyPost(){
+
+    console.log(this.userService.getBasicInfo()?.username)
+    console.log(this.post?.owner)
+    return this.userService.getBasicInfo()?.username == this.post?.owner
+  }
+
+deletePost(){
+  if(this.id){
+    this.postService.deletePost(this.id).subscribe(res => {
+      console.log(res);
+      this.postService.removePost(this.id)
+      this.route.navigate(['dashboard'])
+      })
+
+    }
   }
 
 }

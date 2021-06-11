@@ -20,7 +20,7 @@ export class DashboardComponent implements OnInit {
   })
   user: UserBasicInfo | undefined;
   posts: Posts[] = [];
-
+  
 
   ngOnInit(): void {
     if (!this.userService.getToken()) {

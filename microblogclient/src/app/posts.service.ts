@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Observable, of } from 'rxjs';
+import { Observable, Observer, of } from 'rxjs';
 import { Posts } from './types/Posts';
 import { HttpClient, HttpResponseBase } from '@angular/common/http';
 import { UserService } from './user.service';
@@ -50,11 +50,25 @@ export class PostsService {
     this.posts = [post,...this.posts]
   }
 
+  removePost(id: string|null|undefined){
+    if(!id) return
+    let i = parseInt(id);
+    this.posts = this.posts.filter(p => p.id !== i)
+  }
+
   getPostFromServer(id:string):Observable<any>{
     return this.http.get(`http://localhost:8000/posts/${id}/`, this.userService.getHeaders())
       .pipe(
         catchError(this.handleError({}))
       )
   }
+  
+  deletePost(id:string|null|undefined):Observable<any>{
+    return this.http.delete(`http://localhost:8000/posts/${id}/`, this.userService.getHeaders())
+      .pipe(
+        catchError(this.handleError({}))
+      )
+  }
 
+  
 }
