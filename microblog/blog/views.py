@@ -92,4 +92,4 @@ class UserSearch(generics.ListAPIView):
     queryset = User.objects.all()
     serializer_class = UserSerialize
     filter_backends = [filters.SearchFilter]
-    search_fields = ['=username']
+    search_fields = ['^username']

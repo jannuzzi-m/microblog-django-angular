@@ -86,4 +86,14 @@ export class UserService {
     this.route.navigate(['login'])
   }
 
+  getSearchUsers(param: string):Observable<any>{
+    return this.http.get(`http://localhost:8000/search/users/`,{
+      params:{
+        search: ''
+      }
+    }).pipe(
+      catchError(this.handleError([]))
+    )
+  }
+
 }
