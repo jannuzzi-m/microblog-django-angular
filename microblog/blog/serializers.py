@@ -4,6 +4,12 @@ from django.contrib.auth.models import User
 
 
 class UserSerialize(serializers.ModelSerializer):
+    following = serializers.SerializerMethodField('is_following')
+    def is_following(self, user):
+        request = self.context.get('request', None)
+        if request:
+            
+            return user.id == request.user.id
     class Meta:
         model = User
         fields = ['id', 'username', 'password', 'first_name', 'last_name', 'email', 'following']
