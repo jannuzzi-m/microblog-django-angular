@@ -4,10 +4,9 @@ from django.contrib.auth.models import User
 
 
 class UserSerialize(serializers.ModelSerializer):
-
     class Meta:
         model = User
-        fields = ['id', 'username', 'password', 'first_name', 'last_name', 'email']
+        fields = ['id', 'username', 'password', 'first_name', 'last_name', 'email', 'following']
         extra_kwargs = {'password': {'write_only': True}}
     
     
@@ -19,7 +18,7 @@ class UserSerialize(serializers.ModelSerializer):
 
 
 class PostSerializer(serializers.ModelSerializer):
-    owner = serializers.ReadOnlyField(source = 'owner.username')
+    owner = UserSerialize(serializers.ReadOnlyField(source = 'owner.username'))
     # like_count = serializers._ER
     test = 1
     class Meta:

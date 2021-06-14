@@ -11,43 +11,41 @@ import { UserService } from '../user.service';
 })
 export class PostDetailComponent implements OnInit {
 
-  constructor(private router:ActivatedRoute, private postService: PostsService, private userService: UserService, private route:Router) { }
-  id: string|null|undefined;
-  post: Posts| undefined;
+  constructor(private router: ActivatedRoute, private postService: PostsService, private userService: UserService, private route: Router) { }
+  id: string | null | undefined;
+  post: Posts | undefined;
   isMyPost = false;
   ngOnInit(): void {
-   const param = this.router.snapshot.paramMap.get('id');
-   this.id = param;
-   if(this.id){
-    if (!this.userService.getToken()) {
-      const currenToken = localStorage.getItem('token');
-      if (currenToken) {
-        this.userService.setToken(currenToken)
+    const param = this.router.snapshot.paramMap.get('id');
+    this.id = param;
+    if (this.id) {
+      if (!this.userService.getToken()) {
+        const currenToken = localStorage.getItem('token');
+        if (currenToken) {
+          this.userService.setToken(currenToken)
+        }
       }
+      this.postService.getPostFromServer(this.id).subscribe(res => {
+        this.post = res
+        //  this.route.navigate(['dashboard'])
+        this.isMyPost = this.setIsMyPost()
+      })
     }
-     this.postService.getPostFromServer(this.id).subscribe(res => {
-       this.post = res
-      //  this.route.navigate(['dashboard'])
-      this.isMyPost = this.setIsMyPost()
-    })
-  }
-  
-  
-}
 
-  setIsMyPost(){
 
-    console.log(this.userService.getBasicInfo()?.username)
-    console.log(this.post?.owner)
-    return this.userService.getBasicInfo()?.username == this.post?.owner
   }
 
-deletePost(){
-  if(this.id){
-    this.postService.deletePost(this.id).subscribe(res => {
-      console.log(res);
-      this.postService.removePost(this.id)
-      this.route.navigate(['dashboard'])
+  setIsMyPost() {
+    console.log(this.post)
+    return this.userService.getBasicInfo()?.id == this.post?.owner.id
+  }
+
+  deletePost() {
+    if (this.id) {
+      this.postService.deletePost(this.id).subscribe(res => {
+        console.log(res);
+        this.postService.removePost(this.id)
+        this.route.navigate(['dashboard'])
       })
 
     }

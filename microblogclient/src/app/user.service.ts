@@ -55,6 +55,10 @@ export class UserService {
     }
   }
 
+  getUser(id:string):Observable<any>{
+    return this.http.get(`http://localhost:8000/users/${id}/`, this.getHeaders())
+  }
+
   createUser(data:Registration):Observable<any>{
     return this.http.post('http://localhost:8000/users/',{
       first_name: data.first_name,
@@ -89,11 +93,20 @@ export class UserService {
   getSearchUsers(param: string):Observable<any>{
     return this.http.get(`http://localhost:8000/search/users/`,{
       params:{
-        search: ''
+        search: param
       }
     }).pipe(
       catchError(this.handleError([]))
     )
+  }
+
+  follow(id:string):Observable<any>{
+      return this.http.post('http://localhost:8000/follow/',{
+        user: id
+      }, this.getHeaders()).pipe(
+        catchError(this.handleError({}))
+      )
+  
   }
 
 }

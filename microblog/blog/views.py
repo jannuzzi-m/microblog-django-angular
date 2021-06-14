@@ -34,10 +34,6 @@ class TimeLine(generics.ListCreateAPIView):
     permission_classes = [IsAuthenticated]
 
 
-    # def perform_create(self, serializer):
-    #     user = self.request.user
-    #     serializer.save(owner=user)
-
     def create(self, request, *args, **kwargs):
         data = request.data
         post = Post.objects.create(
@@ -53,6 +49,12 @@ class TimeLine(generics.ListCreateAPIView):
        followed_users.append(self.request.user)
        queryset = [post for post in Post.objects.all().order_by('-created') if post.owner in followed_users]
        return queryset
+
+class PostFromUser(generics.ListAPIView):
+    serializer_class = PostSerializer
+    def get_queryset(self):
+        owner = User.objects.get(pk=self.kwargs['id'])
+        return Post.objects.all().filter(owner=owner)
 
 
 class PostDetail(generics.RetrieveUpdateDestroyAPIView):

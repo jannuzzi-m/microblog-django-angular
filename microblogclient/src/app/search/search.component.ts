@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { User } from '../types/User';
 import { UserService } from '../user.service';
-
+import { FormControl, FormGroup } from '@angular/forms';
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-search',
   templateUrl: './search.component.html',
@@ -9,32 +10,40 @@ import { UserService } from '../user.service';
 })
 export class SearchComponent implements OnInit {
 
-  constructor(private userService: UserService) { }
+  constructor(private userService: UserService, private route: Router) { }
 
-  users: User[] = [
-    {
-        "id": 3,
-        "username": "marcelino",
-        "first_name": "",
-        "last_name": "",
-        "email": ""
-    },
-    {
-        "id": 4,
-        "username": "medusa",
-        "first_name": "Stefani",
-        "last_name": "dlugokens campos",
-        "email": "medusadlugo@gmail.com"
-    }
-]
+  searchParams = new FormGroup({
+    search: new FormControl('')
+  }
+
+  )
+
+  users: User[] = []
+
+  usersEmpty() {
+    return this.users.length == 0
+  }
 
   ngOnInit(): void {
     this.getSearchResults()
   }
 
-  getSearchResults(){
+  getSearchResults() {
     return this.userService.getSearchUsers('s').subscribe(res => {
       console.log(res)
     });
+  }
+
+  search() {
+    const keywords = this.searchParams.value.search;
+    console.log(keywords)
+    return this.userService.getSearchUsers(keywords).subscribe(res => {
+      this.users = res
+      console.log(res)
+    })
+  }
+
+  goToUser(id:number){
+    this.route.navigate([`user/${id}`])
   }
 }

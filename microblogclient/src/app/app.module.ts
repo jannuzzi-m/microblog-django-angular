@@ -10,7 +10,8 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { PostDetailComponent } from './post-detail/post-detail.component';
 import { SearchComponent } from './search/search.component';
 import { TimelineComponent } from './timeline/timeline.component';
-import { UserInfoComponent } from './user-info/user-info.component'
+import { UserInfoComponent } from './user-info/user-info.component';
+import { UserProfileComponent } from './user-profile/user-profile.component'
 
 @NgModule({
   declarations: [
@@ -21,7 +22,8 @@ import { UserInfoComponent } from './user-info/user-info.component'
     PostDetailComponent,
     SearchComponent,
     TimelineComponent,
-    UserInfoComponent
+    UserInfoComponent,
+    UserProfileComponent
   ],
   imports: [
     BrowserModule,

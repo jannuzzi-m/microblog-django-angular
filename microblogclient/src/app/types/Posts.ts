@@ -1,6 +1,8 @@
+import { User } from "./User";
+
 export type Posts = {
     id: number,
     body: string,
-    owner: string,
+    owner: User,
     created: Date
 }

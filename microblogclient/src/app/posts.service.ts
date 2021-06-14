@@ -69,6 +69,11 @@ export class PostsService {
         catchError(this.handleError({}))
       )
   }
-
+  getPostFromUser(id:string):Observable<any>{
+    return this.http.get(`http://localhost:8000/users/posts/${id}/`)
+      .pipe(
+        catchError(this.handleError([]))
+      )
+  }
   
 }
