@@ -1,5 +1,6 @@
 from django.contrib.auth.models import User
 from django.db.models import query
+from django.shortcuts import get_object_or_404
 from rest_framework.response import Response
 from blog import serializers
 from blog.models import Follow, Like, Post
@@ -81,6 +82,7 @@ class LikesCreate(generics.CreateAPIView):
 class FollowList(generics.ListCreateAPIView):
     queryset = Follow.objects.all()
     serializer_class = FollowSerializer
+    
 
 
     def create(self, request, *args, **kwargs):
@@ -89,6 +91,22 @@ class FollowList(generics.ListCreateAPIView):
         follow = Follow.objects.create(follower = user, following=following)
         follow.save()
         return Response({"status": "Following"})
+
+class FollowDetail(generics.RetrieveDestroyAPIView):
+
+    def delete(self, request, id,*args, **kwargs):
+        try:
+            # print(id)
+            currentUser = self.request.user
+            unfollowedUser = User.objects.get(pk=id)
+            follow = Follow.objects.get(follower=currentUser, following=unfollowedUser)
+            follow.delete()
+            return Response({"Details": "Deleted"})
+        except:
+            return Response({"Details": "Not Found"})
+
+
+
 
 class UserSearch(generics.ListAPIView):
     queryset = User.objects.all()

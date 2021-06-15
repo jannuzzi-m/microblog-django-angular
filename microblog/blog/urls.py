@@ -14,6 +14,7 @@ urlpatterns = [
     path('likes/', views.LikesCreate.as_view()),
     # path('likes/<int:pk>/', views.LikeList.as_view()),
     path('follow/', views.FollowList.as_view()),
+    path('follow/<int:id>/', views.FollowDetail.as_view()),
 ]
 
 

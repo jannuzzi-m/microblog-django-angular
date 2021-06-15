@@ -1,15 +1,24 @@
 from blog.models import Follow, Like, Post
 from rest_framework import serializers
 from django.contrib.auth.models import User
+from django.shortcuts import get_object_or_404
 
 
 class UserSerialize(serializers.ModelSerializer):
+
     following = serializers.SerializerMethodField('is_following')
+
     def is_following(self, user):
         request = self.context.get('request', None)
         if request:
-            
-            return user.id == request.user.id
+            try:
+                follow = get_object_or_404(Follow, follower=request.user, following=user)
+                # # follow = Follow.objects.get(follower=request.user, following=user)
+                # print(follow)
+                # return user.id == request.user.id
+                return True
+            except:
+                return False
     class Meta:
         model = User
         fields = ['id', 'username', 'password', 'first_name', 'last_name', 'email', 'following']
