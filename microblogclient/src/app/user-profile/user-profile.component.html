@@ -5,8 +5,9 @@
                 <div id="icon"></div>
                 <div id="username">{{user.username}}</div>
             </div>
-            <div id="follow-container">
-              <button (click)="follow()">Follow</button>
+            <div *ngIf="isCurrentUser" id="follow-container">
+              <button *ngIf="!isFollowing" (click)="follow()">Follow</button>
+              <button *ngIf="isFollowing" (click)="unfollow()">Unfollow</button>
             </div>
         </header>
         <div

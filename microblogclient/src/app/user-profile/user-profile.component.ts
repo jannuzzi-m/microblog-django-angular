@@ -13,11 +13,13 @@ import { UserService } from '../user.service';
 export class UserProfileComponent implements OnInit {
 
   constructor(private activatedRoute: ActivatedRoute,
-              private userService: UserService, 
-              private postService: PostsService,
-              private route:Router) {
+    private userService: UserService,
+    private postService: PostsService,
+    private route: Router) {
 
   }
+  isCurrentUser: boolean = false;
+  isFollowing: boolean = false;
   id: string | null = null
   user: User | undefined
   posts: Posts[] = [];
@@ -31,26 +33,47 @@ export class UserProfileComponent implements OnInit {
     }
     if (this.id) {
       this.userService.getUser(this.id).subscribe(res => {
+        console.log(res)
         this.user = res
+        this.isFollowing = res.following
       })
       this.postService.getPostFromUser(this.id).subscribe(res => {
         this.posts = res
         console.log(res)
       })
     }
+    if (this.id && this.userService.getBasicInfo()) {
+      let result = parseInt(this.id) == this.userService.getBasicInfo()?.id
+
+
+      this.isCurrentUser = !(parseInt(this.id) == this.userService.getBasicInfo()?.id)
+    }
 
   }
   seeDetail(id: number) {
-    this.route.navigate([`post/${id}`])    
+    this.route.navigate([`post/${id}`])
   }
 
-  follow(){
-    if(this.id){
+  follow() {
+    if (this.id) {
       this.userService.follow(this.id).subscribe(res => {
         console.log(res)
       })
 
     }
+    if (this.user) {
+      this.isFollowing = true
+    }
   }
+
+  unfollow() {
+    if (this.id)
+      this.userService.unfollow(this.id).subscribe(res => {
+        console.log(res)
+        this.isFollowing = false
+      })
+  }
+
+
 
 }

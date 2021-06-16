@@ -13,6 +13,11 @@ class Post(models.Model):
     def __str__(self) -> str:
         return self.body
 
+class UserProfile(models.Model):
+    created = models.DateTimeField(auto_now_add=True)
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+
+
 class Like(models.Model):
     created = models.DateTimeField(auto_now_add=True)
     post = models.ForeignKey(Post, related_name='post', on_delete=models.CASCADE)

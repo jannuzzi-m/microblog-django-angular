@@ -6,13 +6,14 @@
   <div
     *ngFor="let post of posts"
     class="post-container"
-    (click)="seeDetail(post.id)"
   >
     <div id="post-header">
       <div id="post-icon"></div>
-      <div id="name">{{ post.owner.username }}</div>
+      <div id="name">
+        <a routerLink="/user/{{post.owner.id}}">{{ post.owner.username }}</a>
+      </div>
     </div>
-    <div id="post-body">
+    <div (click)="seeDetail(post.id)" id="post-body">
       {{ post.body }}
     </div>
   </div>

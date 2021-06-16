@@ -106,7 +106,9 @@ export class UserService {
       }, this.getHeaders()).pipe(
         catchError(this.handleError({}))
       )
-  
+  }
+  unfollow(id:string):Observable<any>{
+      return this.http.delete(`http://localhost:8000/follow/${id}/`, this.getHeaders())
   }
 
 }
