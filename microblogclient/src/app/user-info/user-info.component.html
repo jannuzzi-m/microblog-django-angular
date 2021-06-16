@@ -1,7 +1,7 @@
 <div *ngIf="user" id="info-cotainer">
     <div id="header-profile">
         <div id="profile-icon"></div>
-        <p>olá {{user.username}}</p>
+        <p>olá {{user.user.username}}</p>
     </div>
 </div>
 <div id="signout-container"><button (click)="logout()">Sair</button></div>

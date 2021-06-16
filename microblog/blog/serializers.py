@@ -1,10 +1,11 @@
-from blog.models import Follow, Like, Post
+from rest_framework.fields import ReadOnlyField
+from blog.models import Follow, Like, Post, Profile
 from rest_framework import serializers
 from django.contrib.auth.models import User
 from django.shortcuts import get_object_or_404
 
 
-class UserSerialize(serializers.ModelSerializer):
+class UserSerializer(serializers.ModelSerializer):
 
     following = serializers.SerializerMethodField('is_following')
 
@@ -13,9 +14,6 @@ class UserSerialize(serializers.ModelSerializer):
         if request:
             try:
                 follow = get_object_or_404(Follow, follower=request.user, following=user)
-                # # follow = Follow.objects.get(follower=request.user, following=user)
-                # print(follow)
-                # return user.id == request.user.id
                 return True
             except:
                 return False
@@ -29,11 +27,20 @@ class UserSerialize(serializers.ModelSerializer):
         user = User(username=validated_data['username'], first_name=validated_data['first_name'], last_name=validated_data['last_name'], email=validated_data['email'])
         user.set_password(validated_data['password'])
         user.save()
+        profile = Profile.objects.create(user = user, username = user.username)
+        profile.save()
         return user
 
+class ProfileSerializer(serializers.ModelSerializer):
+    user = UserSerializer(serializers.ReadOnlyField(source='user.username'))
 
+    class Meta:
+        fields = ['id', 'created', 'user']
+        model = Profile
+
+        
 class PostSerializer(serializers.ModelSerializer):
-    owner = UserSerialize(serializers.ReadOnlyField(source = 'owner.username'))
+    owner = UserSerializer(serializers.ReadOnlyField(source = 'owner.username'))
     # like_count = serializers._ER
     test = 1
     class Meta:
@@ -43,7 +50,7 @@ class PostSerializer(serializers.ModelSerializer):
         
 
 class LikeSerializer(serializers.ModelSerializer):
-    who_liked = UserSerialize()
+    who_liked = UserSerializer()
     class Meta:
         model = Like
         fields = ['id', 'created', 'post', 'who_liked', 'test']

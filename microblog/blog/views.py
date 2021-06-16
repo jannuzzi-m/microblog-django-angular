@@ -3,8 +3,8 @@ from django.db.models import query
 from django.shortcuts import get_object_or_404
 from rest_framework.response import Response
 from blog import serializers
-from blog.models import Follow, Like, Post
-from blog.serializers import FollowSerializer, LikeSerializer, PostSerializer, UserSerialize
+from blog.models import Follow, Like, Post, Profile
+from blog.serializers import FollowSerializer, LikeSerializer, PostSerializer, ProfileSerializer, UserSerializer
 from rest_framework import generics, request
 from rest_framework.permissions import IsAuthenticated
 from blog.permissions import IsOwner
@@ -14,20 +14,29 @@ from rest_framework import filters
 
 class UserList(generics.ListCreateAPIView):
     queryset = User.objects.all()
-    serializer_class = UserSerialize
+    serializer_class = UserSerializer
         
 
 class UserDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = User.objects.all()
-    serializer_class = UserSerialize
+    serializer_class = UserSerializer
 
 class BasicInfo(generics.RetrieveAPIView):
-    serializer_class = UserSerialize
+    serializer_class = Profile
     
     def get(self, request, *args, **kwargs):
+        profile = Profile.objects.get(user=request.user.id)
         if(self.request.user):
-            return Response(serializers.UserSerialize(self.request.user).data)
-   
+            return Response(serializers.ProfileSerializer(profile).data)
+
+class ProfileList(generics.ListCreateAPIView):
+    queryset = Profile.objects.all()
+    serializer_class = ProfileSerializer
+
+
+class ProfileDetails(generics.RetrieveDestroyAPIView):
+    queryset = Profile.objects.all()
+    serializer_class = ProfileSerializer
 
 
 class TimeLine(generics.ListCreateAPIView):
@@ -109,7 +118,7 @@ class FollowDetail(generics.RetrieveDestroyAPIView):
 
 
 class UserSearch(generics.ListAPIView):
-    queryset = User.objects.all()
-    serializer_class = UserSerialize
+    queryset = Profile.objects.all()
+    serializer_class = ProfileSerializer
     filter_backends = [filters.SearchFilter]
-    search_fields = ['^username']
+    search_fields = ['user__username']

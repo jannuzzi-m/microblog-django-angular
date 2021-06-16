@@ -3,6 +3,7 @@ import { User } from '../types/User';
 import { UserService } from '../user.service';
 import { FormControl, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
+import { Profile } from '../types/Profile';
 @Component({
   selector: 'app-search',
   templateUrl: './search.component.html',
@@ -18,10 +19,10 @@ export class SearchComponent implements OnInit {
 
   )
 
-  users: User[] = []
+  profiles: Profile[] = []
 
   usersEmpty() {
-    return this.users.length == 0
+    return this.profiles.length == 0
   }
 
   ngOnInit(): void {
@@ -38,7 +39,7 @@ export class SearchComponent implements OnInit {
     const keywords = this.searchParams.value.search;
     console.log(keywords)
     return this.userService.getSearchUsers(keywords).subscribe(res => {
-      this.users = res
+      this.profiles = res
       console.log(res)
     })
   }

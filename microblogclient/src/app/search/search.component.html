@@ -5,10 +5,10 @@
         <button>Search</button>
     </form>
     <div class="user-list">
-        <div *ngFor="let user of users" class="user-container" (click)="goToUser(user.id)">
+        <div *ngFor="let profile of profiles" class="user-container" (click)="goToUser(profile.user.id)">
             <div id="icon"></div>
             
-            <div id="name">{{user.username}}</div>
+            <div id="name">{{profile.user.username}}</div>
         </div>
     </div>
     <div id="empty-container" *ngIf="usersEmpty()">

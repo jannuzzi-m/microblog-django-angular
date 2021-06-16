@@ -5,6 +5,7 @@ import { FormControl, FormGroup } from '@angular/forms'
 import { PostsService } from '../posts.service';
 import { Posts } from '../types/Posts';
 import { Router } from '@angular/router';
+import { Profile } from '../types/Profile';
 
 @Component({
   selector: 'app-timeline',
@@ -19,7 +20,7 @@ export class TimelineComponent implements OnInit {
   postData = new FormGroup({
     text: new FormControl('')
   })
-  user: UserBasicInfo | undefined;
+  user: Profile | undefined;
   posts: Posts[] = [];
   
 

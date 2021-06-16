@@ -5,6 +5,7 @@ import { catchError } from 'rxjs/operators';
 import { Registration } from './types/Registration';
 import { UserBasicInfo } from './types/UserBasicINfo';
 import { Router } from '@angular/router';
+import { Profile } from './types/Profile';
 @Injectable({
   providedIn: 'root'
 })
@@ -14,10 +15,10 @@ export class UserService {
 
   
   private token:string|undefined;
-  private userBasicInfo: UserBasicInfo| undefined;
+  private userProfile: Profile| undefined;
 
-  setUserBasicInfo(info:UserBasicInfo){
-    this.userBasicInfo = info
+  setUserBasicInfo(info:Profile){
+    this.userProfile = info
   }
   getHeaders(){
     return{
@@ -72,12 +73,12 @@ export class UserService {
 
   }
 
-  setBasicInfo(basicInfo: UserBasicInfo){
-    this.userBasicInfo = basicInfo
+  setBasicInfo(basicInfo: Profile){
+    this.userProfile = basicInfo
   } 
 
   getBasicInfo(){
-    return this.userBasicInfo
+    return this.userProfile
   }
 
   getBasicInfoFromServer():Observable<any>{
