@@ -24,18 +24,21 @@ class UserSerializer(serializers.ModelSerializer):
     
     
     def create(self, validated_data):
+        # request = self.context.get('request', None)
+        # print(request.FILES['file'])
         user = User(username=validated_data['username'], first_name=validated_data['first_name'], last_name=validated_data['last_name'], email=validated_data['email'])
         user.set_password(validated_data['password'])
         user.save()
-        profile = Profile.objects.create(user = user, username = user.username)
+        profile = Profile.objects.create(**validated_data, user = user)
         profile.save()
+
         return user
 
 class ProfileSerializer(serializers.ModelSerializer):
     user = UserSerializer(serializers.ReadOnlyField(source='user.username'))
 
     class Meta:
-        fields = ['id', 'created', 'user']
+        fields = ['id', 'created', 'user', 'icon']
         model = Profile
 
         

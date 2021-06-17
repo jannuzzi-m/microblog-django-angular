@@ -6,7 +6,7 @@
     </form>
     <div class="user-list">
         <div *ngFor="let profile of profiles" class="user-container" (click)="goToUser(profile.user.id)">
-            <div id="icon"></div>
+            <img src="http://localhost:8000/media/8-iconfinder_211605_contact_icon_512px.png" id="icon">
             
             <div id="name">{{profile.user.username}}</div>
         </div>

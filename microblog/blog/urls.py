@@ -1,6 +1,8 @@
 from django.urls import path
 from blog import views
 from rest_framework.urlpatterns import format_suffix_patterns
+from django.conf.urls.static import static
+from django.conf import settings
 
 
 urlpatterns = [
@@ -16,7 +18,7 @@ urlpatterns = [
     path('follow/', views.FollowList.as_view()),
     path('follow/<int:id>/', views.FollowDetail.as_view()),
     path('likes/', views.LikesCreate.as_view()),
-]
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 
 

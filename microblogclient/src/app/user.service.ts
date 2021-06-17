@@ -60,8 +60,10 @@ export class UserService {
     return this.http.get(`http://localhost:8000/users/${id}/`, this.getHeaders())
   }
 
-  createUser(data:Registration):Observable<any>{
+  createUser(data:Registration, icon: FormData):Observable<any>{
+    
     return this.http.post('http://localhost:8000/users/',{
+      icon: icon,
       first_name: data.first_name,
       last_name: data.last_name,
       username: data.username,
@@ -111,5 +113,6 @@ export class UserService {
   unfollow(id:string):Observable<any>{
       return this.http.delete(`http://localhost:8000/follow/${id}/`, this.getHeaders())
   }
+
 
 }

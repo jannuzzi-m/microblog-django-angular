@@ -3,6 +3,10 @@ from django.contrib.auth.models import User
 from django.db.models.deletion import CASCADE
 
 
+def get_image_name(icon, filename):
+    return f"{icon.id}-{filename}"
+
+
 class Post(models.Model):
     created = models.DateTimeField(auto_now_add=True)
     body = models.CharField(max_length=240)
@@ -15,6 +19,7 @@ class Post(models.Model):
 class Profile(models.Model):
     created = models.DateTimeField(auto_now_add=True)
     user = models.OneToOneField(User, on_delete=models.CASCADE)
+    icon = models.ImageField(upload_to=get_image_name, blank=True, null=True)
 
     def __str__(self) -> str:
         return self.user.username

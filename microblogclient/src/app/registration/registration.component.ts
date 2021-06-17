@@ -10,8 +10,8 @@ import { Router } from '@angular/router';
 })
 export class RegistrationComponent implements OnInit {
 
-  constructor(private userService: UserService, private route:Router) { }
-
+  constructor(private userService: UserService, private route: Router) { }
+  selectedFile: File|null = null;
   ngOnInit(): void {
   }
   errors = {
@@ -19,7 +19,7 @@ export class RegistrationComponent implements OnInit {
     passwordTooShort: "A senha precisa ter pelo menos 8 caracteres"
   }
 
-  currentError:string|undefined = undefined;
+  currentError: string | undefined = undefined;
 
 
   registrationForm = new FormGroup({
@@ -31,36 +31,49 @@ export class RegistrationComponent implements OnInit {
     confirm_password: new FormControl('')
   })
 
-  onSubmit(){
+  onSubmit() {
     let data: Registration = this.registrationForm.value;
-    if(data.password !== data.confirm_password){
+    if (data.password !== data.confirm_password) {
       this.currentError = this.errors.passwordDoentMatch;
       setTimeout(() => {
         this.currentError = undefined;
       }, 4000);
       return
     }
-    if(data.password.length < 8){
+    if (data.password.length < 8) {
       this.currentError = this.errors.passwordTooShort;
       setTimeout(() => {
         this.currentError = undefined;
       }, 4000);
       return
     }
-    this.userService.createUser(data).subscribe(res => {
-      if(res.id){
+
+
+
+    const icon = new FormData();
+    if(this.selectedFile){
+      icon.append('image', this.selectedFile, this.selectedFile.name)
+    }
+
+    
+    this.userService.createUser(data, icon).subscribe(res => {
+      if (res.id) {
 
         this.userService.setUserBasicInfo(res);
         this.userService.getTokenFromServer(data.username, data.password).subscribe(res => {
-          if(res.token){
+          if (res.token) {
             this.userService.setToken(res.token)
             this.route.navigate(['dashboard'])
             return
           }
         })
         return
-        
+
       }
     })
   }
+  setCurrentFile(event: any) {
+    this.selectedFile = event.target.files[0]
+  }
+
 }

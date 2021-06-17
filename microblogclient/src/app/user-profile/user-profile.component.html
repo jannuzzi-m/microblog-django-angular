@@ -2,7 +2,7 @@
     <main>
         <header>
             <div id="info">
-                <div id="icon"></div>
+                <img src="http://localhost:8000/media/8-iconfinder_211605_contact_icon_512px.png" id="icon">
                 <div id="username">{{user.username}}</div>
             </div>
             <div *ngIf="isCurrentUser" id="follow-container">
@@ -16,7 +16,7 @@
     (click)="seeDetail(post.id)"
   >
     <div id="post-header">
-      <div id="post-icon"></div>
+      <img src="http://localhost:8000/media/8-iconfinder_211605_contact_icon_512px.png" id="post-icon">
       <div id="name">{{ post.owner.username }}</div>
     </div>
     <div id="post-body">
