@@ -1,4 +1,6 @@
+from django import http
 from django.contrib.auth.models import User
+from django.core.files.uploadhandler import FileUploadHandler
 from django.db.models import query
 from django.shortcuts import get_object_or_404
 from rest_framework.response import Response
@@ -10,6 +12,7 @@ from rest_framework.permissions import IsAuthenticated
 from blog.permissions import IsOwner
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import filters
+from rest_framework.parsers import JSONParser, MultiPartParser
 
 
 class UserList(generics.ListCreateAPIView):
@@ -122,3 +125,18 @@ class UserSearch(generics.ListAPIView):
     serializer_class = ProfileSerializer
     filter_backends = [filters.SearchFilter]
     search_fields = ['user__username']
+
+class UpdateIcon(generics.UpdateAPIView):
+    parser_classes = [JSONParser, MultiPartParser]
+    queryset = Profile.objects.all()
+    serializer_class = ProfileSerializer
+    
+    def put(self, request, *args, **kwargs):
+        file_obj = request.data['file']
+        print(request.data['file'])
+        profile = Profile.objects.get(user=self.request.user)
+        profile.icon = request.data['file']
+        profile.save()
+        return Response({
+            "icon": "profile.icon"
+        })

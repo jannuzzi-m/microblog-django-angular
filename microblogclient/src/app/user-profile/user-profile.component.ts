@@ -18,6 +18,7 @@ export class UserProfileComponent implements OnInit {
     private route: Router) {
 
   }
+  curerentFile: File|null = null;
   isCurrentUser: boolean = false;
   isFollowing: boolean = false;
   id: string | null = null
@@ -46,7 +47,7 @@ export class UserProfileComponent implements OnInit {
       let result = parseInt(this.id) == this.userService.getBasicInfo()?.id
 
 
-      this.isCurrentUser = !(parseInt(this.id) == this.userService.getBasicInfo()?.id)
+      this.isCurrentUser = (parseInt(this.id) == this.userService.getBasicInfo()?.id)
     }
 
   }
@@ -73,7 +74,22 @@ export class UserProfileComponent implements OnInit {
         this.isFollowing = false
       })
   }
+  clickImageInput(){
+    if(!this.isCurrentUser) return
+    let fileInput = document.getElementById("input-file-hidden");
+    fileInput?.click()
 
+  }
+
+  setCurrentFile(event:any){
+    this.curerentFile = event.target.files[0]
+    if(!this.curerentFile) return
+    const fileForm = new FormData()
+    fileForm.append('file', this.curerentFile)
+    this.userService.updateIcon(fileForm).subscribe(res => {
+      console.log(res)
+    })
+  }
 
 
 }

@@ -2,10 +2,11 @@
     <main>
         <header>
             <div id="info">
-                <img src="http://localhost:8000/media/8-iconfinder_211605_contact_icon_512px.png" id="icon">
+                <input id="input-file-hidden" type="file" hidden (change)="setCurrentFile($event)">
+                <img [ngStyle]="{'cursor': isCurrentUser? 'pointer': 'unset'}" src="http://localhost:8000/media/8-iconfinder_211605_contact_icon_512px.png" id="icon-input" (click)="clickImageInput()">
                 <div id="username">{{user.username}}</div>
             </div>
-            <div *ngIf="isCurrentUser" id="follow-container">
+            <div *ngIf="!isCurrentUser" id="follow-container">
               <button *ngIf="!isFollowing" (click)="follow()">Follow</button>
               <button *ngIf="isFollowing" (click)="unfollow()">Unfollow</button>
             </div>

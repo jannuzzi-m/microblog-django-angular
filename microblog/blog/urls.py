@@ -18,6 +18,7 @@ urlpatterns = [
     path('follow/', views.FollowList.as_view()),
     path('follow/<int:id>/', views.FollowDetail.as_view()),
     path('likes/', views.LikesCreate.as_view()),
+    path('update-icon/', views.UpdateIcon.as_view()),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 

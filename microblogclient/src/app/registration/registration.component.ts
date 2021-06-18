@@ -11,7 +11,6 @@ import { Router } from '@angular/router';
 export class RegistrationComponent implements OnInit {
 
   constructor(private userService: UserService, private route: Router) { }
-  selectedFile: File|null = null;
   ngOnInit(): void {
   }
   errors = {
@@ -49,14 +48,8 @@ export class RegistrationComponent implements OnInit {
     }
 
 
-
-    const icon = new FormData();
-    if(this.selectedFile){
-      icon.append('image', this.selectedFile, this.selectedFile.name)
-    }
-
     
-    this.userService.createUser(data, icon).subscribe(res => {
+    this.userService.createUser(data).subscribe(res => {
       if (res.id) {
 
         this.userService.setUserBasicInfo(res);
@@ -71,9 +64,6 @@ export class RegistrationComponent implements OnInit {
 
       }
     })
-  }
-  setCurrentFile(event: any) {
-    this.selectedFile = event.target.files[0]
   }
 
 }

@@ -60,10 +60,9 @@ export class UserService {
     return this.http.get(`http://localhost:8000/users/${id}/`, this.getHeaders())
   }
 
-  createUser(data:Registration, icon: FormData):Observable<any>{
+  createUser(data:Registration):Observable<any>{
     
     return this.http.post('http://localhost:8000/users/',{
-      icon: icon,
       first_name: data.first_name,
       last_name: data.last_name,
       username: data.username,
@@ -114,5 +113,12 @@ export class UserService {
       return this.http.delete(`http://localhost:8000/follow/${id}/`, this.getHeaders())
   }
 
+  updateIcon(file: FormData):Observable<any>{
+    let headers = this.getHeaders();
+    headers.headers.set('Authorization', `Token ${this.getToken()}`)
+    headers.headers.set('Content-Type', 'multipart/form-data');
+    headers.headers.set('Content-Disposition', `${this.userProfile?.id || new Date().toString()}`);
+    return this.http.put('http://localhost:8000/update-icon/', file, headers)
+  }
 
 }
