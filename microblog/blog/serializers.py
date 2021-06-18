@@ -43,7 +43,7 @@ class ProfileSerializer(serializers.ModelSerializer):
 
         
 class PostSerializer(serializers.ModelSerializer):
-    owner = UserSerializer(serializers.ReadOnlyField(source = 'owner.username'))
+    owner = ProfileSerializer(serializers.ReadOnlyField(source = 'owner.user.username'))
     # like_count = serializers._ER
     test = 1
     class Meta:

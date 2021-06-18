@@ -48,25 +48,29 @@ class TimeLine(generics.ListCreateAPIView):
 
 
     def create(self, request, *args, **kwargs):
+        owner = Profile.objects.get(user=self.request.user)
         data = request.data
         post = Post.objects.create(
             body=data['body'],
-            owner=self.request.user
+            owner=owner
         )
         post.save()
         return Response(serializers.PostSerializer(post).data)
         
     
+
     def get_queryset(self):
-       followed_users = [user.following for user in Follow.objects.all() if user.follower == self.request.user]
-       followed_users.append(self.request.user)
+       followed_users = [follow.following for follow in Follow.objects.all() if follow.follower.user == self.request.user]
+       followed_users.append(Profile.objects.get(user=self.request.user))
        queryset = [post for post in Post.objects.all().order_by('-created') if post.owner in followed_users]
        return queryset
+
+
 
 class PostFromUser(generics.ListAPIView):
     serializer_class = PostSerializer
     def get_queryset(self):
-        owner = User.objects.get(pk=self.kwargs['id'])
+        owner = Profile.objects.get(pk=self.kwargs['id'])
         return Post.objects.all().filter(owner=owner)
 
 
@@ -98,9 +102,10 @@ class FollowList(generics.ListCreateAPIView):
 
 
     def create(self, request, *args, **kwargs):
-        user = self.request.user
+        user = Profile.objects.get(user=self.request.user)
         following = User.objects.get(id=request.data['user'])
-        follow = Follow.objects.create(follower = user, following=following)
+        following_profile = Profile.objects.get(user=following)
+        follow = Follow.objects.create(follower = user, following=following_profile)
         follow.save()
         return Response({"status": "Following"})
 

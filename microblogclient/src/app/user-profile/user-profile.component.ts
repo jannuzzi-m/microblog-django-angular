@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { PostsService } from '../posts.service';
 import { Posts } from '../types/Posts';
+import { Profile } from '../types/Profile';
 import { User } from '../types/User';
 import { UserService } from '../user.service';
 
@@ -22,7 +23,7 @@ export class UserProfileComponent implements OnInit {
   isCurrentUser: boolean = false;
   isFollowing: boolean = false;
   id: string | null = null
-  user: User | undefined
+  user: Profile | undefined
   posts: Posts[] = [];
   ngOnInit(): void {
     this.id = this.activatedRoute.snapshot.paramMap.get('id');

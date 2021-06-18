@@ -1,7 +1,7 @@
-<div *ngIf="user" id="info-cotainer">
+<div *ngIf="profile" id="info-cotainer">
     <div id="header-profile">
-        <img src="http://localhost:8000/media/8-iconfinder_211605_contact_icon_512px.png" id="profile-icon">
-        <p>olá {{user.user.username}}</p>
+        <img [src]="getIconPath()" id="profile-icon"/>
+        <p>olá {{profile.user.username}}</p>
     </div>
 </div>
 <div id="signout-container"><button (click)="logout()">Sair</button></div>

@@ -6,6 +6,7 @@ import { Registration } from './types/Registration';
 import { UserBasicInfo } from './types/UserBasicINfo';
 import { Router } from '@angular/router';
 import { Profile } from './types/Profile';
+import {API_ROOT, API_PATHS} from './consts';
 @Injectable({
   providedIn: 'root'
 })
@@ -38,7 +39,7 @@ export class UserService {
   }
 
   getTokenFromServer(username:string, password:string): Observable<any>{
-    return this.http.post('http://localhost:8000/api-token-auth/',{
+    return this.http.post(API_ROOT + API_PATHS.auth,{
       username,
       password
     })
@@ -57,12 +58,12 @@ export class UserService {
   }
 
   getUser(id:string):Observable<any>{
-    return this.http.get(`http://localhost:8000/users/${id}/`, this.getHeaders())
+    return this.http.get(API_ROOT+API_PATHS.profile+id+'/', this.getHeaders())
   }
 
   createUser(data:Registration):Observable<any>{
     
-    return this.http.post('http://localhost:8000/users/',{
+    return this.http.post(API_ROOT+API_PATHS.users,{
       first_name: data.first_name,
       last_name: data.last_name,
       username: data.username,
@@ -83,7 +84,7 @@ export class UserService {
   }
 
   getBasicInfoFromServer():Observable<any>{
-    return this.http.get('http://localhost:8000/basic-info/', this.getHeaders())
+    return this.http.get(API_ROOT+API_PATHS.basicInfo, this.getHeaders())
   }
 
   logout(){
@@ -93,7 +94,7 @@ export class UserService {
   }
 
   getSearchUsers(param: string):Observable<any>{
-    return this.http.get(`http://localhost:8000/search/users/`,{
+    return this.http.get(API_ROOT+API_PATHS.searchUsers,{
       params:{
         search: param
       }
@@ -103,14 +104,14 @@ export class UserService {
   }
 
   follow(id:string):Observable<any>{
-      return this.http.post('http://localhost:8000/follow/',{
+      return this.http.post(API_ROOT+API_PATHS.follow,{
         user: id
       }, this.getHeaders()).pipe(
         catchError(this.handleError({}))
       )
   }
   unfollow(id:string):Observable<any>{
-      return this.http.delete(`http://localhost:8000/follow/${id}/`, this.getHeaders())
+      return this.http.delete(API_ROOT+id+'/', this.getHeaders())
   }
 
   updateIcon(file: FormData):Observable<any>{
@@ -118,7 +119,7 @@ export class UserService {
     headers.headers.set('Authorization', `Token ${this.getToken()}`)
     headers.headers.set('Content-Type', 'multipart/form-data');
     headers.headers.set('Content-Disposition', `${this.userProfile?.id || new Date().toString()}`);
-    return this.http.put('http://localhost:8000/update-icon/', file, headers)
+    return this.http.put(API_ROOT+API_PATHS.updateIcon, file, headers)
   }
 
 }

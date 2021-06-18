@@ -7,14 +7,6 @@ def get_image_name(icon, filename):
     return f"{icon.id}-{filename}"
 
 
-class Post(models.Model):
-    created = models.DateTimeField(auto_now_add=True)
-    body = models.CharField(max_length=240)
-    owner = models.ForeignKey('auth.User', related_name='post', on_delete=models.CASCADE)
-
-
-    def __str__(self) -> str:
-        return self.body
 
 class Profile(models.Model):
     created = models.DateTimeField(auto_now_add=True)
@@ -23,6 +15,15 @@ class Profile(models.Model):
 
     def __str__(self) -> str:
         return self.user.username
+
+class Post(models.Model):
+    created = models.DateTimeField(auto_now_add=True)
+    body = models.CharField(max_length=240)
+    owner = models.ForeignKey(Profile, related_name='post', on_delete=models.CASCADE)
+
+
+    def __str__(self) -> str:
+        return self.body
 
 class Like(models.Model):
     created = models.DateTimeField(auto_now_add=True)
@@ -35,8 +36,8 @@ class Like(models.Model):
 
 class Follow(models.Model):
     created = models.DateTimeField(auto_now_add=True)
-    follower = models.ForeignKey('auth.User', related_name='follower', on_delete=models.CASCADE)
-    following = models.ForeignKey('auth.User', related_name='following', on_delete=models.CASCADE)
+    follower = models.ForeignKey(Profile, related_name='follower', on_delete=models.CASCADE)
+    following = models.ForeignKey(Profile, related_name='following', on_delete=models.CASCADE)
     
 
     def __str__(self) -> str:

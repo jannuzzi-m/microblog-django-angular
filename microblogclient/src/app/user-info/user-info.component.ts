@@ -14,19 +14,19 @@ import { Profile } from '../types/Profile';
 })
 export class UserInfoComponent implements OnInit {
 
-  constructor(private userService: UserService, private postService: PostsService, private route:Router) { }
+  constructor(private userService: UserService, private postService: PostsService, private route: Router) { }
 
 
-  user: Profile | undefined;
+  profile: Profile | undefined;
   // posts: Posts[] = [];
-  
+
 
   ngOnInit(): void {
     this.userService.getBasicInfoFromServer().subscribe(res => {
       console.log(res)
       if (res.id) {
         this.userService.setBasicInfo(res);
-        this.user = this.userService.getBasicInfo();
+        this.profile = this.userService.getBasicInfo();
 
       }
     });
@@ -34,6 +34,12 @@ export class UserInfoComponent implements OnInit {
 
   logout() {
     this.userService.logout()
+  }
+
+  getIconPath() {
+    
+    return `http://localhost:8000${this.profile?.icon}`;
+    
   }
 
 }

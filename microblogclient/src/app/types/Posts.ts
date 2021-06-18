@@ -1,8 +1,8 @@
-import { User } from "./User";
+import { Profile } from "./Profile";
 
 export type Posts = {
     id: number,
     body: string,
-    owner: User,
+    owner: Profile,
     created: Date
 }
