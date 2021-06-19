@@ -31,7 +31,7 @@ export class SearchComponent implements OnInit {
 
   getSearchResults() {
     return this.userService.getSearchUsers('s').subscribe(res => {
-      console.log(res)
+      // console.log(res)
     });
   }
 
@@ -40,7 +40,7 @@ export class SearchComponent implements OnInit {
     console.log(keywords)
     return this.userService.getSearchUsers(keywords).subscribe(res => {
       this.profiles = res
-      console.log(res)
+      // console.log(res)
     })
   }
 

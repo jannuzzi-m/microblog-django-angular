@@ -6,6 +6,7 @@
     background-size: cover;
     justify-content: center;
     display: flex;
+    overflow-x: hidden;
 }
 main{
     width: 70%;

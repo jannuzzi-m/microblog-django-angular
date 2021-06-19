@@ -3,6 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { PostsService } from '../posts.service';
 import { Posts } from '../types/Posts';
 import { UserService } from '../user.service';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-post-detail',
@@ -11,7 +12,7 @@ import { UserService } from '../user.service';
 })
 export class PostDetailComponent implements OnInit {
 
-  constructor(private router: ActivatedRoute, private postService: PostsService, private userService: UserService, private route: Router) { }
+  constructor(private router: ActivatedRoute, private postService: PostsService, private userService: UserService, private route: Router, private location:Location) { }
   id: string | null | undefined;
   post: Posts | undefined;
   isMyPost = false;
@@ -45,7 +46,7 @@ export class PostDetailComponent implements OnInit {
       this.postService.deletePost(this.id).subscribe(res => {
         console.log(res);
         this.postService.removePost(this.id)
-        this.route.navigate(['dashboard'])
+        this.location.back()
       })
 
     }

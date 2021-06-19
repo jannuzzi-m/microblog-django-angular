@@ -37,11 +37,10 @@ export class UserProfileComponent implements OnInit {
       this.userService.getUser(this.id).subscribe(res => {
         console.log(res)
         this.user = res
-        this.isFollowing = res.following
+        this.isFollowing = res.user.following
       })
       this.postService.getPostFromUser(this.id).subscribe(res => {
         this.posts = res
-        console.log(res)
       })
     }
     if (this.id && this.userService.getBasicInfo()) {

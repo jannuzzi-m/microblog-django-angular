@@ -7,6 +7,12 @@ import { Posts } from '../types/Posts';
 import { Router } from '@angular/router';
 import { Profile } from '../types/Profile';
 
+enum Tabs{
+  user,
+  timeline,
+  search
+}
+
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
@@ -15,7 +21,7 @@ import { Profile } from '../types/Profile';
 export class DashboardComponent implements OnInit {
 
   constructor(private userService: UserService, private postService: PostsService, private route:Router) { }
-
+  selectedTab: Tabs = Tabs.timeline
   postData = new FormGroup({
     text: new FormControl('')
   })
@@ -42,10 +48,32 @@ export class DashboardComponent implements OnInit {
       this.updatePosts()
     })
 
-
+    console.log(this.selectedTab)
   }
 
-
+  togleTab(tab:Tabs){
+    if(tab == this.selectedTab){
+      this.selectedTab == Tabs.timeline
+      console.log(this.selectedTab)
+      return
+    }
+    
+    if(tab == Tabs.user){
+      this.selectedTab = Tabs.user
+      console.log(this.selectedTab)
+      return
+    }
+    if(tab == Tabs.timeline){
+      this.selectedTab = Tabs.timeline
+      console.log(this.selectedTab)
+      return
+    }
+    if(tab == Tabs.search){
+      this.selectedTab = Tabs.search
+      console.log(this.selectedTab)
+      return
+    }
+  }
 
   postToServer() {
     const data = this.postData.value

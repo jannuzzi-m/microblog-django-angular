@@ -1,7 +1,9 @@
 <div *ngIf="profile" id="info-cotainer">
-    <div id="header-profile">
-        <img [src]="getIconPath()" id="profile-icon"/>
-        <p>olá {{profile.user.username}}</p>
-    </div>
+    <a routerLink="/user/{{profile.id}}">
+        <div id="header-profile">
+            <img [src]="getIconPath()" id="profile-icon"/>
+            <p>olá {{profile.user.username}}</p>
+        </div>
+    </a>
 </div>
 <div id="signout-container"><button (click)="logout()">Sair</button></div>

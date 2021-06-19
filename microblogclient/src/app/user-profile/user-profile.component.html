@@ -4,7 +4,7 @@
             <div id="info">
                 <input id="input-file-hidden" type="file" hidden (change)="setCurrentFile($event)">
                 <img [ngStyle]="{'cursor': isCurrentUser? 'pointer': 'unset'}" [src]="user.icon" id="icon-input" (click)="clickImageInput()">
-                <div id="username">{{user.username}}</div>
+                <div id="username">{{user.user.username}}</div>
             </div>
             <div *ngIf="!isCurrentUser" id="follow-container">
               <button *ngIf="!isFollowing" (click)="follow()">Follow</button>
@@ -18,7 +18,7 @@
   >
     <div id="post-header">
       <img [src]="post.owner.icon" id="post-icon">
-      <div id="name">{{ post.owner.username }}</div>
+      <div id="name">{{ post.owner.user.username }}</div>
     </div>
     <div id="post-body">
       {{ post.body }}

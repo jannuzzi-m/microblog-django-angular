@@ -111,7 +111,7 @@ export class UserService {
       )
   }
   unfollow(id:string):Observable<any>{
-      return this.http.delete(API_ROOT+id+'/', this.getHeaders())
+      return this.http.delete(API_ROOT+API_PATHS.follow+id+'/', this.getHeaders())
   }
 
   updateIcon(file: FormData):Observable<any>{

@@ -52,6 +52,7 @@ export class TimelineComponent implements OnInit {
       return
     }
     this.postService.sendPostFromSever(data.text).subscribe(res => {
+      console.log(res)
       this.postService.addPost(res)
       this.updatePosts()
       this.postData.reset()

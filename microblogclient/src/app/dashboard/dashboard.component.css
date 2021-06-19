@@ -51,4 +51,54 @@
 ::-webkit-scrollbar-thumb:hover {
   background: rgba(0, 0, 0, 9);
 }
+.hiden-dashboard-buttons{
+  display: none;
+}
+
+
+#user-info-hidden-button{
+  background-color: yellow;
+  left: 0;
+}
+
+
+
+#search-area-hidden-button{
+  background-color: aqua;
+  right: 0;
+}
+
+@media only screen and (max-width: 850px){
+  #timeline{
+    width: 100%;
+  }
+  #user-info{
+    width: 0;
+    overflow: hidden;
+    transition: 0.5s;
+  }  
+  
+  #news{
+    width: 0;
+    overflow: hidden;
+    transition: 0.5s;
+  }
+
+  .hiden-dashboard-buttons{
+    display: block;
+    position: absolute;
+    width: 50px;
+    height: 50px;
+    cursor: pointer;
+  }
+  .tab-hidden{
+    width: 0;
+  }
+  
+  .tab-showing{
+    display: flex;
+    width: 100%;
+  }
+}
+
 
