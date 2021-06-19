@@ -76,7 +76,7 @@ class PostFromUser(generics.ListAPIView):
 
 class PostDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Post.objects.all()
-    permission_classes = [IsOwner, IsAuthenticated]
+    permission_classes = [IsAuthenticated]
     serializer_class = PostSerializer
 
 
@@ -111,12 +111,18 @@ class FollowList(generics.ListCreateAPIView):
 
 class FollowDetail(generics.RetrieveDestroyAPIView):
 
-    def delete(self, request, id,*args, **kwargs):
+    def delete(self, request, id, *args, **kwargs):
         try:
             # print(id)
             currentUser = self.request.user
+            currentProfile = Profile.objects.get(user = currentUser)
+
+            
             unfollowedUser = User.objects.get(pk=id)
-            follow = Follow.objects.get(follower=currentUser, following=unfollowedUser)
+            unfollowedProfile = Profile.objects.get(user=unfollowedUser)
+
+
+            follow = Follow.objects.get(follower=currentProfile, following=unfollowedProfile)
             follow.delete()
             return Response({"Details": "Deleted"})
         except:
@@ -137,11 +143,7 @@ class UpdateIcon(generics.UpdateAPIView):
     serializer_class = ProfileSerializer
     
     def put(self, request, *args, **kwargs):
-        file_obj = request.data['file']
-        print(request.data['file'])
         profile = Profile.objects.get(user=self.request.user)
         profile.icon = request.data['file']
         profile.save()
-        return Response({
-            "icon": "profile.icon"
-        })
+        return Response({"icon": "profile.icon"})

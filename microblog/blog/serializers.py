@@ -13,7 +13,9 @@ class UserSerializer(serializers.ModelSerializer):
         request = self.context.get('request', None)
         if request:
             try:
-                follow = get_object_or_404(Follow, follower=request.user, following=user)
+                follower_user = Profile.objects.get(user=request.user)
+                following_user = Profile.objects.get(user=user)
+                follow = get_object_or_404(Follow, follower=follower_user, following=following_user)
                 return True
             except:
                 return False
@@ -43,7 +45,7 @@ class ProfileSerializer(serializers.ModelSerializer):
 
         
 class PostSerializer(serializers.ModelSerializer):
-    owner = ProfileSerializer(serializers.ReadOnlyField(source = 'owner.user.username'))
+    owner = ProfileSerializer(serializers.ReadOnlyField(source = 'owner.user'))
     # like_count = serializers._ER
     test = 1
     class Meta:
