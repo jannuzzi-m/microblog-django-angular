@@ -3,6 +3,7 @@
 /microblog/db.sqlite3
 /microblog/media
 /microblog/media/*
+/microblog/blog/migrations
 /microblog/blog/migrations/*
 # compiled output
 /dist
