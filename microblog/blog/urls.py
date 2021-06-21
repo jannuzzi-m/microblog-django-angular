@@ -19,6 +19,10 @@ urlpatterns = [
     path('follow/<int:id>/', views.FollowDetail.as_view()),
     path('likes/', views.LikesCreate.as_view()),
     path('update-icon/', views.UpdateIcon.as_view()),
+    path('users/notication/', views.NotificationList.as_view()),
+    path('users/notication/<int:pk>/', views.NotificationList.as_view()),
+    path('users/notication/update/<int:pk>/', views.NotificationDetails.as_view()),
+    path('users/notication/count/', views.NotificationCount.as_view()),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 

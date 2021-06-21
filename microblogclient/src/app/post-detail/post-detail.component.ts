@@ -4,6 +4,7 @@ import { PostsService } from '../posts.service';
 import { Posts } from '../types/Posts';
 import { UserService } from '../user.service';
 import { Location } from '@angular/common';
+import { DEFAULTICONPATH } from '../consts';
 
 @Component({
   selector: 'app-post-detail',
@@ -27,6 +28,7 @@ export class PostDetailComponent implements OnInit {
         }
       }
       this.postService.getPostFromServer(this.id).subscribe(res => {
+        res.owner.icon = res.owner.icon?res.owner.icon: DEFAULTICONPATH
         this.post = res
         //  this.route.navigate(['dashboard'])
         this.isMyPost = this.setIsMyPost()

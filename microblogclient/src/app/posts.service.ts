@@ -5,7 +5,7 @@ import { HttpClient, HttpResponseBase } from '@angular/common/http';
 import { UserService } from './user.service';
 import { catchError } from 'rxjs/operators';
 import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
-import { API_ROOT } from './consts';
+import { API_ROOT, DEFAULTICONPATH } from './consts';
 
 
 @Injectable({
@@ -48,7 +48,7 @@ export class PostsService {
   }
 
   addPost(post: Posts){
-    post.owner.icon = API_ROOT+post.owner.icon
+    post.owner.icon  = post.owner.icon?API_ROOT + post.owner.icon: DEFAULTICONPATH
     this.posts = [post,...this.posts]
   }
 

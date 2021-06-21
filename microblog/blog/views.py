@@ -5,8 +5,8 @@ from django.db.models import query
 from django.shortcuts import get_object_or_404
 from rest_framework.response import Response
 from blog import serializers
-from blog.models import Follow, Like, Post, Profile
-from blog.serializers import FollowSerializer, LikeSerializer, PostSerializer, ProfileSerializer, UserSerializer
+from blog.models import Follow, Like, Notification, Post, Profile
+from blog.serializers import FollowSerializer, LikeSerializer, NotificationSerializer, PostSerializer, ProfileSerializer, UserSerializer
 from rest_framework import generics, request
 from rest_framework.permissions import IsAuthenticated
 from blog.permissions import IsOwner
@@ -88,9 +88,17 @@ class LikesCreate(generics.CreateAPIView):
     def create(self, request, *args, **kwargs):
         data = request.data
         user = self.request.user
+        profile = Profile.objects.get(user=user)
         post = Post.objects.get(id=data['post'])
-        like = Like.objects.create(post = post, who_liked = user)
+        like = Like.objects.create(post = post, who_liked = profile)
         like.save()
+
+        #Try get post owner and put it on notification creation
+        who_was_notified = Profile.objects.get(user = like.post.owner)
+
+        notifcation = Notification.objects.create(who_notified=profile, who_was_notified=who_was_notified,notification_type="like")
+        notifcation.save()
+
         return Response(LikeSerializer(like).data)
  
 
@@ -102,11 +110,16 @@ class FollowList(generics.ListCreateAPIView):
 
 
     def create(self, request, *args, **kwargs):
+        data=request.data
         user = Profile.objects.get(user=self.request.user)
         following = User.objects.get(id=request.data['user'])
         following_profile = Profile.objects.get(user=following)
         follow = Follow.objects.create(follower = user, following=following_profile)
         follow.save()
+
+        notifcation = Notification.objects.create(who_notified=user, who_was_notified=following_profile,notification_type="follow")
+        notifcation.save()
+
         return Response({"status": "Following"})
 
 class FollowDetail(generics.RetrieveDestroyAPIView):
@@ -146,4 +159,54 @@ class UpdateIcon(generics.UpdateAPIView):
         profile = Profile.objects.get(user=self.request.user)
         profile.icon = request.data['file']
         profile.save()
-        return Response({"icon": "profile.icon"})
+        return Response(ProfileSerializer(profile).data)
+
+
+class NotificationList(generics.ListCreateAPIView):
+
+    serializer_class = NotificationSerializer
+
+
+
+    def create(self, request, pk, *args, **kwargs):
+        
+        data = request.data
+        current_user = self.request.user
+        current_profile = Profile.objects.get(user=current_user)
+        who_was_notified = Profile.objects.get(pk=pk)
+        notifcation = Notification.objects.create(who_notified=current_profile, who_was_notified=who_was_notified,notification_type=data["description"], was_seen=False)
+
+        if(data["description"] == "like"):
+            post = Post.objects.get(pk=data["post"])
+            notifcation.post = post
+            
+        notifcation.save()
+        return Response(NotificationSerializer(notifcation).data)
+
+                
+    def get_queryset(self):
+        
+        current_user = self.request.user
+        current_profile = Profile.objects.get(user=current_user)
+        
+        queryset = Notification.objects.filter(who_was_notified=current_profile)
+        return queryset
+
+class NotificationDetails(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Notification.objects.all()
+    serializer_class = NotificationSerializer
+    
+
+    def update(self, request, pk, *args, **kwargs):
+        notification = Notification.objects.get(pk=pk)
+        notification.was_seen = not notification.was_seen
+        notification.save()
+        return Response(NotificationSerializer(notification).data)
+        
+
+
+class NotificationCount(generics.RetrieveAPIView):
+
+    def get(self, request, *args, **kwargs):
+        current_profile = Profile.objects.get(user=self.request.user)
+        return Response({"count":Notification.objects.filter(who_was_notified=current_profile,was_seen=False).count()})

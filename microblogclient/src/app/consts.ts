@@ -12,6 +12,6 @@ const API_PATHS = {
     updateIcon:'/update-icon/',
     auth: '/api-token-auth/'
 }
-const defaultIconPAth = "http://localhost:8000/media/default.png"
+const DEFAULTICONPATH = "http://localhost:8000/media/default.png"
 
-export  { API_ROOT, API_PATHS }
+export  { API_ROOT, API_PATHS, DEFAULTICONPATH }

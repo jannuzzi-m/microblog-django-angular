@@ -1,5 +1,6 @@
+from django.db.models import fields
 from rest_framework.fields import ReadOnlyField
-from blog.models import Follow, Like, Post, Profile
+from blog.models import Follow, Like, Notification, Post, Profile
 from rest_framework import serializers
 from django.contrib.auth.models import User
 from django.shortcuts import get_object_or_404
@@ -67,3 +68,13 @@ class FollowSerializer(serializers.ModelSerializer):
     class Meta:
         model = Follow
         fields = ['id', 'follower', 'following']
+
+
+class NotificationSerializer(serializers.ModelSerializer):
+    who_notified = ProfileSerializer()
+    who_was_notified = ProfileSerializer()
+    post = PostSerializer()
+    class Meta:
+        model = Notification
+        fields = ['id', 'created', 'who_notified','who_was_notified','notification_type', 'was_seen', 'post']
+        depth = 1

@@ -5,6 +5,7 @@ import { Posts } from '../types/Posts';
 import { Profile } from '../types/Profile';
 import { User } from '../types/User';
 import { UserService } from '../user.service';
+import { API_ROOT, DEFAULTICONPATH } from '../consts'
 
 @Component({
   selector: 'app-user-profile',
@@ -19,6 +20,7 @@ export class UserProfileComponent implements OnInit {
     private route: Router) {
 
   }
+  icon: string = ''
   curerentFile: File|null = null;
   isCurrentUser: boolean = false;
   isFollowing: boolean = false;
@@ -35,11 +37,17 @@ export class UserProfileComponent implements OnInit {
     }
     if (this.id) {
       this.userService.getUser(this.id).subscribe(res => {
+        if(!res.icon){
+          this.icon = DEFAULTICONPATH
+        }else{
+          this.icon = res.icon
+        }
         console.log(res)
         this.user = res
         this.isFollowing = res.user.following
       })
       this.postService.getPostFromUser(this.id).subscribe(res => {
+        res.map((res:Posts) => res.owner.icon = res.owner.icon?res.owner.icon: DEFAULTICONPATH)
         this.posts = res
       })
     }
@@ -87,7 +95,9 @@ export class UserProfileComponent implements OnInit {
     const fileForm = new FormData()
     fileForm.append('file', this.curerentFile)
     this.userService.updateIcon(fileForm).subscribe(res => {
-      console.log(res)
+      if(res.icon && this.user)
+        this.user.icon = API_ROOT+res.icon
+        this.icon = API_ROOT+res.icon
     })
   }
 

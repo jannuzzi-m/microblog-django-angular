@@ -4,6 +4,8 @@ import { UserService } from '../user.service';
 import { FormControl, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Profile } from '../types/Profile';
+import { API_ROOT, API_PATHS, DEFAULTICONPATH } from '../consts';
+
 @Component({
   selector: 'app-search',
   templateUrl: './search.component.html',
@@ -39,8 +41,13 @@ export class SearchComponent implements OnInit {
     const keywords = this.searchParams.value.search;
     console.log(keywords)
     return this.userService.getSearchUsers(keywords).subscribe(res => {
+      res.map((r: Profile) => r.icon = r.icon ? r.icon: DEFAULTICONPATH)
       this.profiles = res
-      // console.log(res)
+    
+      
+
+
+      console.log(res)
     })
   }
 

@@ -6,6 +6,7 @@ import { PostsService } from '../posts.service';
 import { Posts } from '../types/Posts';
 import { Router } from '@angular/router';
 import { Profile } from '../types/Profile';
+import { API_ROOT, API_PATHS, DEFAULTICONPATH } from '../consts';
 
 @Component({
   selector: 'app-user-info',
@@ -24,6 +25,11 @@ export class UserInfoComponent implements OnInit {
   ngOnInit(): void {
     this.userService.getBasicInfoFromServer().subscribe(res => {
       console.log(res)
+      if(!res.icon){
+        res.icon = DEFAULTICONPATH
+      }else{
+        res.icon = this.getIconPath(res.icon)
+      }
       if (res.id) {
         this.userService.setBasicInfo(res);
         this.profile = this.userService.getBasicInfo();
@@ -36,9 +42,9 @@ export class UserInfoComponent implements OnInit {
     this.userService.logout()
   }
 
-  getIconPath() {
+  getIconPath(path:string) {
     
-    return `http://localhost:8000${this.profile?.icon}`;
+    return `http://localhost:8000${path}`;
     
   }
 

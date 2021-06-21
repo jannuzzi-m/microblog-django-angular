@@ -6,6 +6,7 @@ import { PostsService } from '../posts.service';
 import { Posts } from '../types/Posts';
 import { Router } from '@angular/router';
 import { Profile } from '../types/Profile';
+import { DEFAULTICONPATH } from '../consts';
 
 @Component({
   selector: 'app-timeline',
@@ -39,6 +40,7 @@ export class TimelineComponent implements OnInit {
       }
     });
     this.postService.getPostsFromServer().subscribe(res => {
+      res.map((res:Posts) => res.owner.icon = res.owner.icon?res.owner.icon: DEFAULTICONPATH)
       this.postService.setPosts(res)
       this.updatePosts()
     })
