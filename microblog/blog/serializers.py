@@ -27,8 +27,6 @@ class UserSerializer(serializers.ModelSerializer):
     
     
     def create(self, validated_data):
-        # request = self.context.get('request', None)
-        # print(request.FILES['file'])
         user = User(username=validated_data['username'], first_name=validated_data['first_name'], last_name=validated_data['last_name'], email=validated_data['email'])
         user.set_password(validated_data['password'])
         user.save()
@@ -56,19 +54,20 @@ class PostSerializer(serializers.ModelSerializer):
         
 
 class LikeSerializer(serializers.ModelSerializer):
-    who_liked = UserSerializer()
+    who_liked = ProfileSerializer()
     class Meta:
         model = Like
-        fields = ['id', 'created', 'post', 'who_liked', 'test']
+        fields = ['id', 'created', 'post', 'who_liked']
         depth = 1
 
 class FollowSerializer(serializers.ModelSerializer):
-    follower = serializers.ReadOnlyField(source = 'follower.username')
-
+    # follower = serializers.ReadOnlyField(source = 'follower.username')
+    follower = ProfileSerializer()
+    following = ProfileSerializer()
     class Meta:
         model = Follow
         fields = ['id', 'follower', 'following']
-
+        depth = 1
 
 class NotificationSerializer(serializers.ModelSerializer):
     who_notified = ProfileSerializer()

@@ -7,7 +7,9 @@
   </a>
 </div>
 <ul id="menu">
-  <li>Notificações <div id="notfication-count">7</div></li>
+  <a routerLink="/notifications">
+    <li>Notificações <div *ngIf="notificationCount" id="notfication-count">{{notificationCount}}</div></li>
+  </a>
 </ul>
 <div id="signout-container"><button (click)="logout()">Sair</button></div>
     

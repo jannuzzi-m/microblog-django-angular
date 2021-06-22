@@ -122,4 +122,9 @@ export class UserService {
     return this.http.put(API_ROOT+API_PATHS.updateIcon, file, headers)
   }
 
+  getNotificationCount():Observable<any>{
+    return this.http.get('http://localhost:8000/users/notication/count/', this.getHeaders())
+  }
+
+
 }

@@ -20,6 +20,7 @@ export class UserInfoComponent implements OnInit {
 
   profile: Profile | undefined;
   // posts: Posts[] = [];
+  notificationCount:number = 0;
 
 
   ngOnInit(): void {
@@ -36,6 +37,10 @@ export class UserInfoComponent implements OnInit {
 
       }
     });
+    this.userService.getNotificationCount().subscribe(res => {
+      if(res)
+        this.notificationCount = res.count
+    })
   }
 
   logout() {

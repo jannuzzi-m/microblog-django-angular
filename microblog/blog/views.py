@@ -92,12 +92,10 @@ class LikesCreate(generics.CreateAPIView):
         post = Post.objects.get(id=data['post'])
         like = Like.objects.create(post = post, who_liked = profile)
         like.save()
-
-        #Try get post owner and put it on notification creation
-        who_was_notified = Profile.objects.get(user = like.post.owner)
-
-        notifcation = Notification.objects.create(who_notified=profile, who_was_notified=who_was_notified,notification_type="like")
-        notifcation.save()
+        ## create notification
+        who_was_notified = Profile.objects.get(user = User.objects.get(username=post.owner))
+        notification = Notification.objects.create(who_notified = profile, who_was_notified=who_was_notified, notification_type="like", post=post)
+        notification.save()
 
         return Response(LikeSerializer(like).data)
  
@@ -110,17 +108,18 @@ class FollowList(generics.ListCreateAPIView):
 
 
     def create(self, request, *args, **kwargs):
-        data=request.data
-        user = Profile.objects.get(user=self.request.user)
-        following = User.objects.get(id=request.data['user'])
-        following_profile = Profile.objects.get(user=following)
-        follow = Follow.objects.create(follower = user, following=following_profile)
-        follow.save()
 
-        notifcation = Notification.objects.create(who_notified=user, who_was_notified=following_profile,notification_type="follow")
+        data = request.data
+        current_user = Profile.objects.get(user = self.request.user)
+        followed_user = Profile.objects.get(id = data["user"])
+        follow = Follow.objects.create(follower = current_user, following = followed_user)
+        follow.save()
+        notifcation = Notification.objects.create(who_notified=current_user, who_was_notified=followed_user,notification_type="follow")
         notifcation.save()
 
-        return Response({"status": "Following"})
+
+
+        return Response({"status": "Following", "follow": FollowSerializer(follow).data})
 
 class FollowDetail(generics.RetrieveDestroyAPIView):
 

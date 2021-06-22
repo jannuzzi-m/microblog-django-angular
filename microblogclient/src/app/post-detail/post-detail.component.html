@@ -4,7 +4,8 @@
             <img [src]="post.owner.icon"id="user-icon">
 
             <div id="username-container">
-                {{post.owner.user.username}}
+                <a routerLink="/user/{{post.owner.user.id}}">{{post.owner.user.username}}</a>
+                
             </div>
         </div>
         <div id="body">
