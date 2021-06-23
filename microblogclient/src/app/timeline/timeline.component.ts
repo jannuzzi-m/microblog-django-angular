@@ -17,14 +17,14 @@ import { LikesService } from '../likes.service';
 export class TimelineComponent implements OnInit {
 
 
-  constructor(private userService: UserService, private postService: PostsService, private route:Router, private likeService: LikesService) { }
+  constructor(private userService: UserService, private postService: PostsService, private route: Router, private likeService: LikesService) { }
 
   postData = new FormGroup({
     text: new FormControl('')
   })
   user: Profile | undefined;
   posts: Posts[] = [];
-  
+
 
   ngOnInit(): void {
     if (!this.userService.getToken()) {
@@ -41,7 +41,7 @@ export class TimelineComponent implements OnInit {
       }
     });
     this.postService.getPostsFromServer().subscribe(res => {
-      res.map((res:Posts) => res.owner.icon = res.owner.icon?res.owner.icon: DEFAULTICONPATH)
+      res.map((res: Posts) => res.owner.icon = res.owner.icon ? res.owner.icon : DEFAULTICONPATH)
       this.postService.setPosts(res)
       this.updatePosts()
     })
@@ -68,15 +68,23 @@ export class TimelineComponent implements OnInit {
   }
 
 
-  seeDetail(id:number){
-    this.route.navigate([`post/${id}`])    
+  seeDetail(id: number) {
+    this.route.navigate([`post/${id}`])
   }
 
-  like(id:number){
-    this.posts = this.posts.map((p:Posts) => p.id == id ? {...p, liked:true, like_count: p.like_count + 1}:p)
+  like(id: number) {
+    this.likeService.like(id).subscribe(res => {
+      console.log(res)
+        this.posts = this.posts.map((p: Posts) => p.id == id ? { ...p, liked: true, like_count: p.like_count + 1 } : p)
+    })
   }
-  unLike(id:number){
-    this.posts = this.posts.map((p:Posts) => p.id == id ? {...p, liked:false, like_count: p.like_count - 1}:p)
+  
+  unLike(id: number) {
+    this.likeService.unlike(id).subscribe(res => {
+
+        this.posts = this.posts.map((p: Posts) => p.id == id ? { ...p, liked: false, like_count: p.like_count - 1 } : p)
+    })
+
 
   }
 }

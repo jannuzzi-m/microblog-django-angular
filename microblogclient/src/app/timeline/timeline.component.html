@@ -19,8 +19,8 @@
     <div id="post-footer">
       
       Likes: {{ post.like_count }}
-      <div class="like-button" *ngIf="post.liked" (click)="unLike(post.id)">Unlike</div>
       <div class="like-button" *ngIf="!post.liked" (click)="like(post.id)">Like</div>
+      <div class="like-button" *ngIf="post.liked" (click)="unLike(post.id)">Unlike</div>
     </div>
   </div>
 </div>

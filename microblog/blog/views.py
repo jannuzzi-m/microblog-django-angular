@@ -111,22 +111,16 @@ class LikesDelete(generics.DestroyAPIView):
     serializer_class = LikeSerializer
 
     def delete(self, request, id, *args, **kwargs):
-        # print(id)
         user = Profile.objects.get(user=self.request.user)
-        # return Response(ProfileSerializer(user).data)
+
         post = Post.objects.get(id=id)
         like = Like.objects.get(who_liked=user, post=post)
-        
-        return Response(LikeSerializer(like).data)
-        return Response(PostSerializer(post).data)
-
-
-
-        # try:
-        #     like.delete()
-        #     return Response({"deleted": True})
-        # except:
-        #     return Response({"deleted": False})
+    
+        try:
+            like.delete()
+            return Response({"deleted": True})
+        except:
+            return Response({"deleted": False})
 
 
 class FollowList(generics.ListCreateAPIView):
