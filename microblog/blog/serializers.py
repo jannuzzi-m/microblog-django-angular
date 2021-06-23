@@ -1,5 +1,5 @@
 from django.db.models import fields
-from rest_framework.fields import ReadOnlyField
+from rest_framework.fields import ReadOnlyField, SerializerMethodField
 from blog.models import Follow, Like, Notification, Post, Profile
 from rest_framework import serializers
 from django.contrib.auth.models import User
@@ -45,11 +45,22 @@ class ProfileSerializer(serializers.ModelSerializer):
         
 class PostSerializer(serializers.ModelSerializer):
     owner = ProfileSerializer(serializers.ReadOnlyField(source = 'owner.user'))
-    # like_count = serializers._ER
-    test = 1
+    like_count = SerializerMethodField('get_like_count')
+    liked = SerializerMethodField('get_already_liked')
+    def get_already_liked(self, post):
+        try:
+            request = self.context.get('request', None)
+            current_profile = Profile.objects.get(user=request.user)
+            Like.objects.get(who_liked=current_profile, post=post)
+            return True
+        except:
+            return False
+
+    def get_like_count(self, obj):
+        return Like.objects.filter(post=obj).count()
     class Meta:
         model = Post
-        fields = ['id', 'body', 'created', 'owner']
+        fields = ['id', 'body', 'created', 'owner', 'like_count', 'liked']
         depth = 1
         
 

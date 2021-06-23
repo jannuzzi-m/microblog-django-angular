@@ -1,14 +1,11 @@
 <div  id="container">
-    <div id="user-info-hidden-button" class="hiden-dashboard-buttons" (click)="togleTab(0)"></div>
-    <div id="search-area-hidden-button" class="hiden-dashboard-buttons" (click)="togleTab(2)"></div>
-    <div id="user-info" [ngClass]="selectedTab == 0? 'tab-showing':'tab-hidden'">
-        
+    <div id="user-info">
         <app-user-info></app-user-info>
     </div>
-    <div id="timeline" [ngClass]="selectedTab == 1? 'tab-showing':'tab-hidden'">
+    <div id="timeline">
         <app-timeline></app-timeline>
     </div>
-    <div id="news" [ngClass]="selectedTab == 2? 'tab-showing':'tab-hidden'">
+    <div id="news">
         <app-search></app-search>
     </div>
 

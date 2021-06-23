@@ -7,6 +7,7 @@ import { Posts } from '../types/Posts';
 import { Router } from '@angular/router';
 import { Profile } from '../types/Profile';
 import { DEFAULTICONPATH } from '../consts';
+import { LikesService } from '../likes.service';
 
 @Component({
   selector: 'app-timeline',
@@ -16,7 +17,7 @@ import { DEFAULTICONPATH } from '../consts';
 export class TimelineComponent implements OnInit {
 
 
-  constructor(private userService: UserService, private postService: PostsService, private route:Router) { }
+  constructor(private userService: UserService, private postService: PostsService, private route:Router, private likeService: LikesService) { }
 
   postData = new FormGroup({
     text: new FormControl('')
@@ -69,6 +70,14 @@ export class TimelineComponent implements OnInit {
 
   seeDetail(id:number){
     this.route.navigate([`post/${id}`])    
+  }
+
+  like(id:number){
+    this.posts = this.posts.map((p:Posts) => p.id == id ? {...p, liked:true, like_count: p.like_count + 1}:p)
+  }
+  unLike(id:number){
+    this.posts = this.posts.map((p:Posts) => p.id == id ? {...p, liked:false, like_count: p.like_count - 1}:p)
+
   }
 }
 

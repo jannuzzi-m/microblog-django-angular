@@ -80,9 +80,10 @@ class PostDetail(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = PostSerializer
 
 
-class LikesCreate(generics.CreateAPIView):
+class LikesCreate(generics.ListCreateAPIView):
     permission_classes = [IsAuthenticated]
     serializer_class = LikeSerializer
+    queryset = Like.objects.all()
 
 
     def create(self, request, *args, **kwargs):
@@ -90,8 +91,14 @@ class LikesCreate(generics.CreateAPIView):
         user = self.request.user
         profile = Profile.objects.get(user=user)
         post = Post.objects.get(id=data['post'])
-        like = Like.objects.create(post = post, who_liked = profile)
-        like.save()
+        try:
+            like = Like.objects.get(post = post, who_liked = profile)
+            Response({"created": False})
+        except:
+            like = Like.objects.create(post = post, who_liked = profile)
+            like.save()
+            Response({"created": True})
+            
         ## create notification
         who_was_notified = Profile.objects.get(user = User.objects.get(username=post.owner))
         notification = Notification.objects.create(who_notified = profile, who_was_notified=who_was_notified, notification_type="like", post=post)
@@ -99,6 +106,27 @@ class LikesCreate(generics.CreateAPIView):
 
         return Response(LikeSerializer(like).data)
  
+
+class LikesDelete(generics.DestroyAPIView):
+    serializer_class = LikeSerializer
+
+    def delete(self, request, id, *args, **kwargs):
+        # print(id)
+        user = Profile.objects.get(user=self.request.user)
+        # return Response(ProfileSerializer(user).data)
+        post = Post.objects.get(id=id)
+        like = Like.objects.get(who_liked=user, post=post)
+        
+        return Response(LikeSerializer(like).data)
+        return Response(PostSerializer(post).data)
+
+
+
+        # try:
+        #     like.delete()
+        #     return Response({"deleted": True})
+        # except:
+        #     return Response({"deleted": False})
 
 
 class FollowList(generics.ListCreateAPIView):

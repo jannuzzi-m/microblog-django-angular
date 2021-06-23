@@ -10,26 +10,21 @@
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  background-color: rgba(0, 0, 0, 0.3);
+  background-color: transparent;
   padding: 5px;
 }
 
 
 #timeline {
   width: 60%;
-  border-left: 1px #000 solid;
-  border-right: 1px #000 solid;
   padding: 10px;
   overflow-y: scroll;
+  overflow-x: visible;
 }
-
-
 
 #news {
   width: 20%;
-  /* background-color: brown; */
   background-color: rgba(0, 0, 0, 0.3);
-  /* background-color: transparent; */
 }
 
 /* width */
@@ -56,49 +51,6 @@
 }
 
 
-#user-info-hidden-button{
-  background-color: yellow;
-  left: 0;
-}
 
-
-
-#search-area-hidden-button{
-  background-color: aqua;
-  right: 0;
-}
-
-@media only screen and (max-width: 850px){
-  #timeline{
-    width: 100%;
-  }
-  #user-info{
-    width: 0;
-    overflow: hidden;
-    transition: 0.5s;
-  }  
-  
-  #news{
-    width: 0;
-    overflow: hidden;
-    transition: 0.5s;
-  }
-
-  .hiden-dashboard-buttons{
-    display: block;
-    position: absolute;
-    width: 50px;
-    height: 50px;
-    cursor: pointer;
-  }
-  .tab-hidden{
-    width: 0;
-  }
-  
-  .tab-showing{
-    display: flex;
-    width: 100%;
-  }
-}
 
 
