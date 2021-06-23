@@ -1,6 +1,25 @@
 <div id="outer-container">
-    <div id="container">
-        
+  <div *ngIf="notifications" id="container">
+    <div *ngFor="let notification of notifications">
+      <div *ngIf="notification.notification_type == 'follow'">
+        <a routerLink="/user/{{ notification.who_notified.id }}">
+          <div (click)="toggleNotificationSeen(notification.id)" class="notification-container" [ngClass]="notification.was_seen?'notification-seen': ''">
+              <img class="notification-icon" src="{{notification.who_notified.icon}}" alt="">
+            {{ notification.who_notified.user.username }} follows you
+          </div>
+        </a>
+      </div>
+      <div
+        *ngIf="notification.notification_type == 'like' && notification.post"
+      >
+        <a routerLink="/post/{{ notification.post.id }}">
+          <div (click)="toggleNotificationSeen(notification.id)" class="notification-container" [ngClass]="notification.was_seen?'notification-seen': ''">
+              <img class="notification-icon" src="{{notification.who_notified.icon}}" alt="">
+            {{ notification.who_notified.user.username }} likes your post
+            {{ notification.post.body }}
+          </div>
+        </a>
+      </div>
     </div>
-
+  </div>
 </div>

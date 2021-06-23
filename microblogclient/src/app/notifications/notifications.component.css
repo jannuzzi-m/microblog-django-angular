@@ -9,3 +9,28 @@
     width: 70%;
     background-color: rgba(0, 0, 0, .5);
 }
+
+#container a{
+    text-decoration: none;
+}
+.notification-container{
+    padding: 5px;
+    color: white;
+    background-color: rgba(0, 0, 0, .5);
+    min-height: 50px;
+    margin: 5px;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+}
+
+.notification-icon{
+    width: 50px;
+    height: 50px;
+    background-color: white;
+    border-radius: 50%;
+}
+
+.notification-seen{
+    background-color: rgba(0, 0, 0, .2);
+}

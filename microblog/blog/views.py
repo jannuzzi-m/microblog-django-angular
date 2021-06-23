@@ -164,6 +164,7 @@ class UpdateIcon(generics.UpdateAPIView):
 class NotificationList(generics.ListCreateAPIView):
 
     serializer_class = NotificationSerializer
+    permission_classes = [IsAuthenticated]
 
 
 
@@ -194,6 +195,7 @@ class NotificationList(generics.ListCreateAPIView):
 class NotificationDetails(generics.RetrieveUpdateDestroyAPIView):
     queryset = Notification.objects.all()
     serializer_class = NotificationSerializer
+    # permission_classes = [IsAuthenticated]
     
 
     def update(self, request, pk, *args, **kwargs):
@@ -205,6 +207,7 @@ class NotificationDetails(generics.RetrieveUpdateDestroyAPIView):
 
 
 class NotificationCount(generics.RetrieveAPIView):
+    permission_classes = [IsAuthenticated]
 
     def get(self, request, *args, **kwargs):
         current_profile = Profile.objects.get(user=self.request.user)
