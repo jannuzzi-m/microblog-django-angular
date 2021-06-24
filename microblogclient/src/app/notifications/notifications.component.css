@@ -7,21 +7,27 @@
 
 #container{
     width: 70%;
-    background-color: rgba(0, 0, 0, .5);
+    /* background-color: rgba(0, 0, 0, .2); */
+    overflow: scroll;
 }
 
 #container a{
     text-decoration: none;
 }
+
 .notification-container{
     padding: 5px;
     color: white;
     background-color: rgba(0, 0, 0, .5);
-    min-height: 50px;
-    margin: 5px;
-    border-radius: 5px;
+    min-height: 75px;
+    margin: 5px 30px;
+    border-radius: 15px;
     display: flex;
     align-items: center;
+    transition: .3s;
+}
+.notification-container:hover{
+    transform: scale(1.03, 1.03);
 }
 
 .notification-icon{

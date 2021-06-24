@@ -118,6 +118,8 @@ class LikesDelete(generics.DestroyAPIView):
     
         try:
             like.delete()
+            like_notifiation = Notification.objects.get(who_notified=user, post=post)
+            like_notifiation.delete()
             return Response({"deleted": True})
         except:
             return Response({"deleted": False})
@@ -158,6 +160,8 @@ class FollowDetail(generics.RetrieveDestroyAPIView):
 
             follow = Follow.objects.get(follower=currentProfile, following=unfollowedProfile)
             follow.delete()
+            follow_notification = Notification.objects.get(who_notified=currentProfile, who_was_notified=unfollowedProfile, notification_type="follow")
+            follow_notification.delete()
             return Response({"Details": "Deleted"})
         except:
             return Response({"Details": "Not Found"})
@@ -211,7 +215,7 @@ class NotificationList(generics.ListCreateAPIView):
         current_user = self.request.user
         current_profile = Profile.objects.get(user=current_user)
         
-        queryset = Notification.objects.filter(who_was_notified=current_profile)
+        queryset = Notification.objects.filter(who_was_notified=current_profile).order_by('-created')
         return queryset
 
 class NotificationDetails(generics.RetrieveUpdateDestroyAPIView):

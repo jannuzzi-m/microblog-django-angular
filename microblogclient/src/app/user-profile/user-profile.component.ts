@@ -6,6 +6,7 @@ import { Profile } from '../types/Profile';
 import { User } from '../types/User';
 import { UserService } from '../user.service';
 import { API_ROOT, DEFAULTICONPATH } from '../consts'
+import { LikesService } from '../likes.service';
 
 @Component({
   selector: 'app-user-profile',
@@ -17,7 +18,8 @@ export class UserProfileComponent implements OnInit {
   constructor(private activatedRoute: ActivatedRoute,
     private userService: UserService,
     private postService: PostsService,
-    private route: Router) {
+    private route: Router,
+    private likeService: LikesService) {
 
   }
   icon: string = ''
@@ -100,6 +102,20 @@ export class UserProfileComponent implements OnInit {
         this.icon = API_ROOT+res.icon
     })
   }
+  like(id: number) {
+    this.likeService.like(id).subscribe(res => {
+      console.log(res)
+        this.posts = this.posts.map((p: Posts) => p.id == id ? { ...p, liked: true, like_count: p.like_count + 1 } : p)
+    })
+  }
+  
+  unLike(id: number) {
+    this.likeService.unlike(id).subscribe(res => {
 
+        this.posts = this.posts.map((p: Posts) => p.id == id ? { ...p, liked: false, like_count: p.like_count - 1 } : p)
+    })
+
+
+  }
 
 }

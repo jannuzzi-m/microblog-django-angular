@@ -30,12 +30,12 @@ export class NotificationsComponent implements OnInit {
   
   }
 
-  toggleNotificationSeen(id:number){
-    this.notificationService.updateNotificationAsSeen(id).subscribe(res => {
+  toggleNotificationSeen(notification:Notification){
+    if(notification.was_seen == true) return
+    this.notificationService.updateNotificationAsSeen(notification.id).subscribe(res => {
       this.notifications.map((n:Notification) => {
-        return n.id == id? n : {...n, was_seen: false}
+        return n == notification? n : {...n, was_seen: false}
       })
-      console.log(res)
     });
   }
 

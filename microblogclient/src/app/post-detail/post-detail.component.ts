@@ -5,6 +5,7 @@ import { Posts } from '../types/Posts';
 import { UserService } from '../user.service';
 import { Location } from '@angular/common';
 import { DEFAULTICONPATH } from '../consts';
+import { LikesService } from '../likes.service';
 
 @Component({
   selector: 'app-post-detail',
@@ -13,10 +14,10 @@ import { DEFAULTICONPATH } from '../consts';
 })
 export class PostDetailComponent implements OnInit {
 
-  constructor(private router: ActivatedRoute, private postService: PostsService, private userService: UserService, private route: Router, private location:Location) { }
+  constructor(private router: ActivatedRoute, private postService: PostsService, private userService: UserService, private route: Router, private location: Location, private likeService: LikesService) { }
   id: string | null | undefined;
   post: Posts | undefined;
-  isMyPost = false;
+  isMyPost = true;
   ngOnInit(): void {
     const param = this.router.snapshot.paramMap.get('id');
     this.id = param;
@@ -28,10 +29,10 @@ export class PostDetailComponent implements OnInit {
         }
       }
       this.postService.getPostFromServer(this.id).subscribe(res => {
-        res.owner.icon = res.owner.icon?res.owner.icon: DEFAULTICONPATH
+        res.owner.icon = res.owner.icon ? res.owner.icon : DEFAULTICONPATH
         this.post = res
         //  this.route.navigate(['dashboard'])
-        this.isMyPost = this.setIsMyPost()
+        // this.isMyPost = this.setIsMyPost()
       })
     }
 
@@ -39,7 +40,6 @@ export class PostDetailComponent implements OnInit {
   }
 
   setIsMyPost() {
-    console.log(this.post)
     return this.userService.getBasicInfo()?.id == this.post?.owner.id
   }
 
@@ -52,6 +52,29 @@ export class PostDetailComponent implements OnInit {
       })
 
     }
+  }
+  like() {
+    if(!this.post) return
+    this.likeService.like(this.post.id).subscribe(res => {
+      if (this.post) {
+        this.post.liked = true;
+        this.post.like_count += 1
+      }
+    })
+    
+  }
+  
+  unLike() {
+    if(!this.post) return
+    this.likeService.unlike(this.post.id).subscribe(res => {
+      if(this.post){
+        this.post.liked = false;
+        this.post.like_count -= 1
+
+      }
+    })
+
+
   }
 
 }

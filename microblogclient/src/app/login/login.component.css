@@ -1,12 +1,8 @@
 @import url('https://fonts.googleapis.com/css2?family=Pacifico&display=swap');
 
 #container {
-  background-color: red;
   height: 100vh;
   width: 100%;
-  background-image: url("../../imgs/city-5637906_1920.jpg");
-  background-size: cover;
-  background-repeat: no-repeat;
 }
 
 #form {
