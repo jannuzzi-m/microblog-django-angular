@@ -4,7 +4,11 @@
   font-size: 2em;
   justify-content: left;
   align-items: center;
+  transition: .3s;
 }
+#header-profile:hover{
+  transform: scale(1.1,.1.1);
+} 
 
 #profile-icon {
   width: 50px;
@@ -61,6 +65,10 @@ a {
   font-weight: bolder;
   list-style: none;
   cursor: pointer;
+  transition: .3s;
+}
+#menu li:hover{
+  transform: scale(1.05,1.05);
 }
 #notfication-count {
   margin-left: 10px;

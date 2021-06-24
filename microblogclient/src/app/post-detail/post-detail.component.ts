@@ -6,6 +6,7 @@ import { UserService } from '../user.service';
 import { Location } from '@angular/common';
 import { DEFAULTICONPATH } from '../consts';
 import { LikesService } from '../likes.service';
+import { Profile } from '../types/Profile';
 
 @Component({
   selector: 'app-post-detail',
@@ -17,7 +18,7 @@ export class PostDetailComponent implements OnInit {
   constructor(private router: ActivatedRoute, private postService: PostsService, private userService: UserService, private route: Router, private location: Location, private likeService: LikesService) { }
   id: string | null | undefined;
   post: Posts | undefined;
-  isMyPost = true;
+  isMyPost = false;
   ngOnInit(): void {
     const param = this.router.snapshot.paramMap.get('id');
     this.id = param;
@@ -28,19 +29,32 @@ export class PostDetailComponent implements OnInit {
           this.userService.setToken(currenToken)
         }
       }
-      this.postService.getPostFromServer(this.id).subscribe(res => {
+
+      this.postService.getPostFromServer(this.id).subscribe((res: Posts) => {
         res.owner.icon = res.owner.icon ? res.owner.icon : DEFAULTICONPATH
         this.post = res
-        //  this.route.navigate(['dashboard'])
-        // this.isMyPost = this.setIsMyPost()
+        this.setIsMyPost(res)
       })
     }
 
-
   }
 
-  setIsMyPost() {
-    return this.userService.getBasicInfo()?.id == this.post?.owner.id
+  setIsMyPost(post:Posts) {
+
+
+    if(!this.userService.getBasicInfo()){
+      this.userService.getBasicInfoFromServer().subscribe((res:Profile) => {
+        console.log(res)
+        if (res.id) {
+          this.userService.setBasicInfo(res);  
+        }
+        this.isMyPost = res.id == post.owner.id 
+
+      });
+      
+    }else{
+      this.isMyPost = this.userService.getBasicInfo()?.id == post.owner.id
+    }
   }
 
   deletePost() {

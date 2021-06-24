@@ -49,6 +49,9 @@ header{
   cursor: pointer;
   transition: .3s;
 }
+#follow-container button:hover{
+  transform: scale(1.1, 1.1);
+}
 
 #post-footer{
   width: 50%;
@@ -57,25 +60,6 @@ header{
 }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  
 
   
 
@@ -99,6 +83,8 @@ header{
   }
   #post-body {
     padding: 2px;
+    min-height: 50px;
+    padding-top: 10px;
   }
 
 

@@ -48,7 +48,6 @@ export class DashboardComponent implements OnInit {
       this.updatePosts()
     })
 
-    console.log(this.selectedTab)
   }
 
   togleTab(tab:Tabs){
