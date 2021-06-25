@@ -12,7 +12,8 @@ import { SearchComponent } from './search/search.component';
 import { TimelineComponent } from './timeline/timeline.component';
 import { UserInfoComponent } from './user-info/user-info.component';
 import { UserProfileComponent } from './user-profile/user-profile.component';
-import { NotificationsComponent } from './notifications/notifications.component'
+import { NotificationsComponent } from './notifications/notifications.component';
+import { PostComponent } from './post/post.component'
 
 @NgModule({
   declarations: [
@@ -25,7 +26,8 @@ import { NotificationsComponent } from './notifications/notifications.component'
     TimelineComponent,
     UserInfoComponent,
     UserProfileComponent,
-    NotificationsComponent
+    NotificationsComponent,
+    PostComponent
   ],
   imports: [
     BrowserModule,

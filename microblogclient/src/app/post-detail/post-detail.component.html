@@ -1,31 +1,3 @@
 <div id="container">
-  <div *ngIf="post" id="post-container">
-    <div id="header">
-      <img [src]="post.owner.icon" id="user-icon" />
-
-      <div id="username-container">
-        <a routerLink="/user/{{ post.owner.user.id }}">{{
-          post.owner.user.username
-        }}</a>
-      </div>
-    </div>
-    <div id="body">
-      {{ post.body }}
-    </div>
-
-    <div id="post-footer">
-      <div id="like-area">
-        Likes: {{ post.like_count }}
-        <div class="like-button" *ngIf="!post.liked" (click)="like()">Like</div>
-        <div class="like-button" *ngIf="post.liked" (click)="unLike()">
-          Unlike
-        </div>
-      </div>
-      <div id="delete-area">
-        <div *ngIf="isMyPost">
-          <button (click)="deletePost()" id="delete-button">Delete</button>
-        </div>
-      </div>
-    </div>
-  </div>
+  <app-post id="post" [showDelete]="true" [post]="post"></app-post>
 </div>

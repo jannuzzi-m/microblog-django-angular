@@ -102,20 +102,5 @@ export class UserProfileComponent implements OnInit {
         this.icon = API_ROOT+res.icon
     })
   }
-  like(id: number) {
-    this.likeService.like(id).subscribe(res => {
-      console.log(res)
-        this.posts = this.posts.map((p: Posts) => p.id == id ? { ...p, liked: true, like_count: p.like_count + 1 } : p)
-    })
-  }
-  
-  unLike(id: number) {
-    this.likeService.unlike(id).subscribe(res => {
-
-        this.posts = this.posts.map((p: Posts) => p.id == id ? { ...p, liked: false, like_count: p.like_count - 1 } : p)
-    })
-
-
-  }
 
 }

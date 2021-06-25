@@ -35,7 +35,7 @@ form input{
     
 }
 
-form input:hover{
+form input:hover, button:hover{
     transform: scale(1.08, 1.03);
 }
 
@@ -44,6 +44,7 @@ form button{
     border-radius: 10px;
     font-size:6pt;
     font-weight: bolder;
+    transition: .1s;
 }
 
 #empty-container{

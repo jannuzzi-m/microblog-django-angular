@@ -11,26 +11,9 @@
               <button *ngIf="isFollowing" (click)="unfollow()">Unfollow</button>
             </div>
         </header>
-        <div
-    *ngFor="let post of posts"
-    class="post-container"
-    
-  >
-    <div id="post-header">
-      <img [src]="icon" id="post-icon">
-      <div id="name">{{ post.owner.user.username }}</div>
-    </div>
-    <div id="post-body"(click)="seeDetail(post.id)">
-      {{ post.body }}
-    </div>
-    <div id="post-footer">
-      
-      Likes: {{ post.like_count }}
-      <div class="like-button" *ngIf="!post.liked" (click)="like(post.id)">Like</div>
-      <div class="like-button" *ngIf="post.liked" (click)="unLike(post.id)">Unlike</div>
-    </div>
-  </div>
-    
+        <app-post class="posts" *ngFor="let post of posts" id="post" [showDelete]="false" [post]="post"></app-post>
+
     </main>
 
 </div>
+

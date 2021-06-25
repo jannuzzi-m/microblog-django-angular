@@ -25,7 +25,7 @@ export class UserInfoComponent implements OnInit {
 
   ngOnInit(): void {
     this.userService.getBasicInfoFromServer().subscribe(res => {
-      console.log(res)
+      // console.log(res)
       if(!res.icon){
         res.icon = DEFAULTICONPATH
       }else{

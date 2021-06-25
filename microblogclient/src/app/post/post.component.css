@@ -1,19 +1,6 @@
-#container {
-  width: 100%;
-  height: 100vh;
-  background-size: cover;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-#post{
-  width: 70%;
-  margin-bottom: 300px;
-}
-
 #post-container {
-  width: 70%;
-  background-color: rgba(0, 0, 0, 0.7);
+  width: 90%;
+  background-color: rgba(0, 0, 0, 0.5);
   display: flex;
   flex-direction: column;
   border-radius: 25px;
@@ -34,7 +21,6 @@
   align-items: center;
   padding: 10px;
   transition: 0.3s;
-
 }
 #header:hover {
   transform: scale(1.1, 1.1);
@@ -51,12 +37,14 @@
 }
 #body {
   width: 100;
-  min-height: 100px;
+  min-height: 50px;
   max-height: 400px;
   color: white;
   padding: 10px;
 }
-
+a{
+  text-decoration: none;
+}
 @media only screen and (max-width: 600px) {
   #post-container {
     width: 90%;
@@ -91,7 +79,6 @@
   display: flex;
   justify-content: flex-end;
   margin-right: 1em;
-
 }
 
 #delete-area button {
@@ -101,13 +88,11 @@
   height: 25px;
   border-radius: 4px;
   cursor: pointer;
-  background-color: rgb(238, 27, 27);
   transition: 0.3s;
   border: none;
 }
 
 #delete-button:hover {
-  background-color: rgb(245, 39, 39);
   transform: scale(1.2, 1.2);
 }
 

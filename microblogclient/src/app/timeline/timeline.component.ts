@@ -55,7 +55,7 @@ export class TimelineComponent implements OnInit {
       return
     }
     this.postService.sendPostFromSever(data.text).subscribe(res => {
-      console.log(res)
+      // console.log(res)
       this.postService.addPost(res)
       this.updatePosts()
       this.postData.reset()
@@ -67,14 +67,9 @@ export class TimelineComponent implements OnInit {
     this.posts = this.postService.getPosts()
   }
 
-
-  seeDetail(id: number) {
-    this.route.navigate([`post/${id}`])
-  }
-
   like(id: number) {
     this.likeService.like(id).subscribe(res => {
-      console.log(res)
+      // console.log(res)
         this.posts = this.posts.map((p: Posts) => p.id == id ? { ...p, liked: true, like_count: p.like_count + 1 } : p)
     })
   }

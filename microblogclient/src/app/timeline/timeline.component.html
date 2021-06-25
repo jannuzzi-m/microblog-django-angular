@@ -2,25 +2,9 @@
   <textarea formControlName="text" name="" id="" cols="30" rows="10"></textarea>
   <button>Microblogit</button>
 </form>
-<div id="posts">
-  <div
-    *ngFor="let post of posts"
-    class="post-container"
-  >
-    <div id="post-header">
-      <img [src]="post.owner.icon" id="post-icon">
-      <div id="name">
-        <a routerLink="/user/{{post.owner.user.id}}">{{ post.owner.user.username }}</a>
-      </div>
-    </div>
-    <div (click)="seeDetail(post.id)" id="post-body">
-      {{ post.body }}
-    </div>
-    <div id="post-footer">
-      
-      Likes: {{ post.like_count }}
-      <div class="like-button" *ngIf="!post.liked" (click)="like(post.id)">Like</div>
-      <div class="like-button" *ngIf="post.liked" (click)="unLike(post.id)">Unlike</div>
-    </div>
-  </div>
+<div id="posts-container">
+  <app-post class="posts" *ngFor="let post of posts" id="post" [showDelete]="false" [post]="post"></app-post>
 </div>
+
+
+

@@ -16,6 +16,18 @@
   margin-top: 5px;
   transition: .3s;
 }
+#posts-container{
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+.posts{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  margin-bottom: 10px;
+}
 
 #post-area button:hover {
   background-color: rgba(0, 0, 0, 0.5);
