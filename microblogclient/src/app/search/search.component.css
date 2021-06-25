@@ -41,10 +41,18 @@ form input:hover, button:hover{
 
 form button{
     width: 19%;
+    color: white;
+    background-color: rgba(0, 0, 0, 0.2);
     border-radius: 10px;
     font-size:6pt;
     font-weight: bolder;
     transition: .1s;
+    border: none;
+    cursor: pointer;
+}
+form button:hover{
+    transform: scale(1.08, 1.03);
+    background-color: rgba(0, 0, 0, .5);
 }
 
 #empty-container{

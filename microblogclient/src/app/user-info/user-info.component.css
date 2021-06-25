@@ -6,9 +6,6 @@
   align-items: center;
   transition: .3s;
 }
-#header-profile:hover{
-  transform: scale(1.1,.1.1);
-} 
 
 #profile-icon {
   width: 50px;
