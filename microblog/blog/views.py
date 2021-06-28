@@ -53,7 +53,7 @@ class TimeLine(generics.ListCreateAPIView):
         )
         post.save()
         return Response(serializers.PostSerializer(post).data)       
-    
+
 
     def get_queryset(self):
        followed_users = [follow.following for follow in Follow.objects.all() if follow.follower.user == self.request.user]

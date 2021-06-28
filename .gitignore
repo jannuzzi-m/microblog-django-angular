@@ -5,6 +5,9 @@
 /microblog/media/*
 /microblog/blog/migrations
 /microblog/blog/migrations/*
+/microblog/blog/__pycache__
+/microblog/blog/__pycache__/*
+microblog/microblog/__pycache__
 # compiled output
 /dist
 /tmp
