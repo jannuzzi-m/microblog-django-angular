@@ -8,14 +8,15 @@ def get_image_name(icon, filename):
     return f"{icon.id}-{filename}"
 
 
-
 class Profile(models.Model):
     created = models.DateTimeField(auto_now_add=True)
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     icon = models.ImageField(upload_to=get_image_name, blank=True, null=True)
 
+
     def __str__(self) -> str:
         return self.user.username
+
 
 class Post(models.Model):
     created = models.DateTimeField(auto_now_add=True)
@@ -26,10 +27,12 @@ class Post(models.Model):
     def __str__(self) -> str:
         return self.body
 
+
 class Like(models.Model):
     created = models.DateTimeField(auto_now_add=True)
     post = models.ForeignKey(Post, related_name='post', on_delete=models.CASCADE)
     who_liked = models.ForeignKey(Profile, related_name='who_liked', on_delete=models.CASCADE)
+
 
     def __str__(self) -> str:
         return f'{self.who_liked.user.username} likes {self.post}'
@@ -52,6 +55,7 @@ class Notification(models.Model):
     notification_type = models.CharField(max_length=120, blank=False)
     was_seen = models.BooleanField(default=False)
     post = models.ForeignKey(Post ,related_name="post_liked", null=True, blank=True, on_delete=models.CASCADE)
+
 
     def __str__(self) -> str:
         return f'{self.who_notified} {self.notification_type} {self.who_was_notified}'

@@ -7,12 +7,13 @@ from django.shortcuts import get_object_or_404
 
 
 class UserSerializer(serializers.ModelSerializer):
-
     following = serializers.SerializerMethodField('is_following')
+
 
     def is_following(self, user):
         request = self.context.get('request', None)
         if request:
+
             try:
                 follower_user = Profile.objects.get(user=request.user)
                 following_user = Profile.objects.get(user=user)
@@ -20,6 +21,8 @@ class UserSerializer(serializers.ModelSerializer):
                 return True
             except:
                 return False
+
+
     class Meta:
         model = User
         fields = ['id', 'username', 'password', 'first_name', 'last_name', 'email', 'following']
@@ -32,11 +35,11 @@ class UserSerializer(serializers.ModelSerializer):
         user.save()
         profile = Profile.objects.create(user = user)
         profile.save()
-
         return user
 
 class ProfileSerializer(serializers.ModelSerializer):
     user = UserSerializer(serializers.ReadOnlyField(source='user.username'))
+
 
     class Meta:
         fields = ['id', 'created', 'user', 'icon']
@@ -47,7 +50,10 @@ class PostSerializer(serializers.ModelSerializer):
     owner = ProfileSerializer(serializers.ReadOnlyField(source = 'owner.user'))
     like_count = SerializerMethodField('get_like_count')
     liked = SerializerMethodField('get_already_liked')
+
+
     def get_already_liked(self, post):
+
         try:
             request = self.context.get('request', None)
             current_profile = Profile.objects.get(user=request.user)
@@ -56,8 +62,11 @@ class PostSerializer(serializers.ModelSerializer):
         except:
             return False
 
+
     def get_like_count(self, obj):
         return Like.objects.filter(post=obj).count()
+
+
     class Meta:
         model = Post
         fields = ['id', 'body', 'created', 'owner', 'like_count', 'liked']
@@ -66,25 +75,34 @@ class PostSerializer(serializers.ModelSerializer):
 
 class LikeSerializer(serializers.ModelSerializer):
     who_liked = ProfileSerializer()
+
+
     class Meta:
         model = Like
         fields = ['id', 'created', 'post', 'who_liked']
         depth = 1
 
+
 class FollowSerializer(serializers.ModelSerializer):
     # follower = serializers.ReadOnlyField(source = 'follower.username')
     follower = ProfileSerializer()
     following = ProfileSerializer()
+
+
     class Meta:
         model = Follow
         fields = ['id', 'follower', 'following']
         depth = 1
 
+
 class NotificationSerializer(serializers.ModelSerializer):
     who_notified = ProfileSerializer()
     who_was_notified = ProfileSerializer()
     post = PostSerializer()
+
+
     class Meta:
         model = Notification
         fields = ['id', 'created', 'who_notified','who_was_notified','notification_type', 'was_seen', 'post']
         depth = 1
+        
