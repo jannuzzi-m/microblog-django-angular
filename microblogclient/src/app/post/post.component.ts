@@ -23,7 +23,6 @@ export class PostComponent implements OnInit, AfterContentChecked {
      private likeService: LikesService,
      private location: Location) { }
   ngAfterContentChecked(): void {
-    console.log(this.post)
       if(this.post)
         this.setIsMyPost(this.post)
   }

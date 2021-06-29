@@ -48,6 +48,13 @@ export class DashboardComponent implements OnInit {
       this.updatePosts()
     })
 
+    const ws = new WebSocket('ws://localhost:8000/ws/notifications/');
+    ws.onmessage = event =>{
+      const data = JSON.parse(event.data)
+      console.log(data)
+    }
+
+
   }
 
   togleTab(tab:Tabs){
